@@ -1,0 +1,243 @@
+\chapter{Programa Play}
+
+\section{Análise do Problema}
+
+
+
+%1. Hipótese / Objetivo. Em primeiro lugar, referir o que se está a tentar descobrir, ou tentar fazer, da
+%froma mais clara possível
+
+O programa \texttt{Play}, já referido no capítulo \emph{Enunciado}, dada uma descrição do tabuleiro tem o
+objetivo de produzir uma jogada, após obter do elemento \texttt{next} a peça para jogar, e reproduzir no
+\texttt{stdout} um \texttt{Element} do tipo \texttt{tile}, com a jogada intencionada. Além do mais, o
+programa deveria seguir uma estratégia de jogo, controlando o tipo, e o número de \emph{followers} (jogar
+apenas 7 peões), a colocar na posição adjacente, à posição válida no tabuleiro. De igual modo, o
+programa teria de garantir que o \emph{follower} não poderia ser colocado numa cidade ou campo controlado por
+outro jogador. O \texttt{output} deveria ser p.e.
+
+\begin{verbatim} 
+<tile type="E" x="-2" y="-2" orientation="S"/> 
+\end{verbatim}
+
+ou
+
+\begin{verbatim}
+ <tile type="E" x="1" y="5" orientation="N">
+ <follower player="1" type="K"/>
+ </tile>
+\end{verbatim}
+
+
+Na análise deste problema tentou-se uma abordagem mais abstrata do que a abordagem na implementação do
+programa \texttt{Draw}. Aqui analisou-se como poderia o programa executar uma ação humana, como escolher uma
+peça, verificar qual a posição válida e colocar, ou não, um \emph{follower} na peça. Em primeiro lugar,
+procedeu-se à análise de um possível algoritmo, baseado numa ação humana para fazer um \emph{match} de
+peça numa posição adjacente. Um ser humano para efetuar primeiro uma jogada, após escolher uma peça do
+baralho, tenta perceber qual o padrão da peça. O indivíduo verifica os lados da sua peça e compara com os
+lados das posições válidas adjacentes para peça retirada do baralho. Tendo como base esta ideia,
+concluíu-se que se teria que criar uma um tipo de dados que o programa poderia interpretar com os lados
+da peça. Assim decidiu-se criar um \texttt{data type} \texttt{Side} enumerado, com os construtores
+\texttt{City}, \texttt{Farm} e \texttt{Empty}. O construtor \texttt{City} seria para os lados com cidade, o
+construtor \texttt{Farm} seria para quintas (ou campos) e o construtor \texttt{Empty} seria para as posições
+adjacentes, logo vazias.
+
+
+De seguida, tendo em mente o mesmo conceito da ação humana, pensou-se na implementação de um quadruplo -
+\texttt{(Side, Side, Side, Side)} para a representação da peça, em que o primeiro elemento do quadruplo
+seria o lado Norte, o segundo, o lado Oeste, o terceiro, o lado Sul, e o quarto, o lado Este. No entanto, a
+estrutura teria que ter algo mais: a posição da peça. Do mesmo modo que se implementou a função
+\texttt{tileXY} que criava estrutura de posições do programa\texttt{Draw}, recebendo uma lista de listas com
+tuplos com as coordenadas do tabuleiro, uma lista de triplos com a posição e o \texttt{Element} do tipo
+\texttt{tile} dessa posição como parâmetros, decidiu-se reutilizar a mesma função. Neste caso a
+intenção foi extrair o atributo \texttt{type} e o atributo \texttt{orientation} do elemento \texttt{tile}
+para criar uma lista de listas com o tipo \texttt{((Int, Int),(Side, Side, Side, Side))}. O primeiro elemento
+do tuplo seria a posição (x, y), e o segundo, a peça já com a representação da dos lados, obtendo-se
+assim, uma matriz correspondente ao tabuleiro com as representações intencionadas. Todavia, os limites do
+tabuleiro tiveram que ser aumentados uma posição para obter todas as posições adjacentes. Após esta
+análise decidiu-se proceder para uma primeira fase de implemantação, e observar os resultados e confirmar a
+hipótese. Um exemplo de uma das linhas das matrizes obtidas é o seguinte: 
+\begin{verbatim} 
+
+[ ((-1,0),(Empty,Empty, Empty,Empty)),
+  (( 0,0),(Farm, Farm, Farm, City)), 
+  (( 1,0),(Empty, Empty, Empty, Empty))] 
+
+\end{verbatim}
+
+Este exemplo é correspondente para a linha da matriz da origem do referencial, para a primeira jogada, i. e.,
+a peça E jogada com a orientação Este na posição (0,0). O intuito da peça vazia seria que esta
+funcionasse como uma \emph{dummy tile}, i. e., ter uma peça adjacente, que, de facto, não existe, no
+entanto, numa futura implementação, poderia tomar valores dos lados das peças existentes no tabuleiro.
+Assim, poder-se-ia implementar uma função que comparasse recursivamente as \emph{dummy tiles} com um
+conjuntos de constantes, que representariam as peças do tabuleiro nas sua variadas posições. Esta
+devolveria o oposto do implementado na criação da matriz inicial, ou seja, a partir de uma lista de pares
+com orientação e representação dos seus lados, devolveria uma lista de tuplos, onde o primeiro elemento do
+par seria as coordenadas, e o segundo elemento outro tuplo onde figurariam o tipo de peça e a orientação,
+no primeiro e no segundo elemento do par respetivamente. A lista seria a lista de todas as jogadas possíveis,
+onde bastaria obter o conteúdo do \emph{tag} \emph{next}, a peça a ser jogada, e filtrar todas posições
+por essa valor. Uma vez que a implementação de um algoritmo para jogar estes tipo de jogos é extremamente
+complicado, decidiu-se enveredar pela estratégia mais simples: jogar uma peça aleatóriamente. No entanto,
+tinha-se como intenção implementar algo mais, do género, colocar \emph{followers} do tipo F até acabarem.
+
+
+\begin{verbatim} 
+[((-1,0),(Empty, Farm, Empty,Empty)),
+ ((0, 0),(Farm, Farm, Farm, City)),
+ ((1,0 ),(Empty, City, Empty, Empty))] 
+\end{verbatim} 
+
+Para obter um efeito semelhante, decidiu-se transpor a matriz e aplicar outra
+duas funções similares às anteriores, mas desta vez as funções teriam o seguinte comportamento: colocar
+no lado Sul da peça vazia, o conteúdo do lado Norte da peça não vazia, e a outra no lado Norte da peça
+vazia, o conteúdo do lado Sul da peça não vazia. De resto, estas funções comportam-se do mesmo modo que
+as anteriores.
+
+
+\section{Implementação}
+Em primeiro lugar é necessário introduzir algumas convenções utilizadas. O tipo \texttt{(Side, Side, Side, Side)} será representado pelo nome
+\texttt{TileWithSides}, as coordenadas de cada posição do tabuleiro - \texttt{(Int, Int)} - como
+\texttt{Coord}. Como no programa anterior os tipos de peça serão representados por \texttt{TileType} para o
+tipo de peça, e \texttt{TileOrientation} para a orientação.
+
+
+Para obter todas as jogadas válidas foi necessário proceder à implementação de uma função para obter um
+possível\emph{match} das peças adjacentes. Para tal, foi necessário criar uma estrutura similar à usada no
+\texttt{Draw}, e através da adaptação da função \texttt{tileXY} (função \texttt{tileSides}), e utilizando
+uma outra função, de igual modo, adaptada para o cálculo dos limites (neste caso calcula os limites do
+tabuleiro incrementados numa posição - função \texttt{tb}). Deste modo, foi possível obter como
+resultado, uma matriz, cujos elementos são tuplos, onde o conteúdo da primeira posição do par são as
+coordenadas de cada peça, e a segunda posição contém a informação dos lados no quadruplo já mencionado
+- \texttt{TileWithSides}. Deste modo, conseguiu-se mapear todas as peças existentes no tabuleiro, mais
+posições vazias, com a informação necessária para a etapa seguinte. 
+A função utilizada para o efeito foi a função createBoard, que foi adaptada da função dada em aula, implementada na função drawS. 
+Em seguida, foi implementada uma
+função, que obtém as posições vazias adjacentes com a sua informação dos lados, e de igual modo, os
+lados das peças existentes do tabuleiro. Após a implementação da última, criou-se uma função recursiva,
+de nome \texttt{getAdjacentsSide} que recebe uma coordenada - \texttt{Coord} - do tabuleiro e devolve um lado
+- \texttt{Side}. Note-se que a coordenada que esta função pretende recebe, é a coordenada de uma posição
+adjacente. Em seguida, implementaram-se outras duas funções que recebem a peça vazia adjacente, que, após
+obter os lados necessários das peças existentes, coloca nesta peça os lados correspondentes. A primeira
+função, implementada para este efeito, é a função \texttt{setEastWest} que recebe uma peça vazia, bem
+como a lista de peças do tabuleiro no formato com as coordenadas e os lados correspondentes. Através da
+função \texttt{getAdjacentsSide}, a função \texttt{setEastWest} incrementa um valor ao elemento \emph{x}
+do par ordenado, para obter o lado leste da peça do tabuleiro, a que a coordenada corresponda a esse valor, e
+de igual modo, incrementa o valor valor de \emph{x} para obter o lado a oeste, do mesmo modo, para obter o
+lado oeste da peça do tabuleiro. O resultado é uma nova peça, que anteriormente era vazia, agora possui os
+dois lados preenchidos, este e oeste, obtidos da informação da peça do tabuleiro, adjacente à peça vazia.
+Observe-se que possivelmente, algumas peças vão buscar lados vazios, no entanto é irrelevante, uma vez que,
+se a peça for adjacente a uma outra existente, apenas fica com o lado intencionado. A função
+\texttt{setNorthSouth} aplica o mesmo princípio da anterior, no entanto possui uma variação importante.
+Esta função para obter o lado norte da peça existente e colocar o mesmo na peça vazia, incrementa um valor
+ao elemento \emph{y} do par ordenado e obtém o \textbf{lado sul} da peça existente para a colocar no
+\textbf{lado norte} da peça vazia adjacente. De igual modo, para obter o lado sul, decrementa um valor a
+\emph{y} e obter o \textbf{lado norte} da peça existente e colocá-lo no \textbf{lado sul} da peça vazia
+adjacente. Isto acontece, uma vez que, é necessário obter das \textbf{posições acima} da peça vazia
+adjacente, o lado sul, como também é preciso obter das \textbf{posições abaixo} o lado norte. Mais duas
+funções forma implementadas para percorrer todos os elementos vazios adjacentes e compará-los com as
+posições existentes, e acrescentar as novas peças a uma lista. A função \texttt{getWestEast} usa a
+função \texttt{setEastWest}, e assim cria uma lista com as peças adjacentes ao tabuleiro com o lado leste e
+oeste modificado. A função \texttt{getNorthSouth}utiliza a função \texttt{setNorthSouth}, e também gera
+uma lista com as peças adjacentes ao tabuleiro e toma os valores dos lados norte e sul. A custa das duas
+lista geradas por estas funções, a função \texttt{merge} obtém os lados este e oeste de uma lista, e, de
+igual modo, o lado norte e sul da outra lista, e junta-os numa lista única, com todas as peças adjacentes ao
+tabuleiro, anteriormente vazias, com oslados atualizados para comparação com a função \emph{match}.
+
+
+
+%
+%
+
+
+	A função \texttt{match}, através de pattern maching compara \texttt{TileWithSides} das \texttt{dummy tiles} com TileWithSides 
+
+A função getMove utiliza a função \texttt{match} para validar se a algum lado corresponde a alguma orientação definida
+nos casos de \texttt{pattern matching}. Caso houver um \texttt{match}, a função devolve um tuplo com o primeiro elemento do para a tomar o valor do tipo de peça,
+e o segundo elemento do par a tomar o valor da orientação. Um exemplo da implementação desta função esta
+descrito abaixo para o caso da peça N com a orientação E :
+
+\begin{verbatim}
+
+getMove :: TileWithSides -> TileWithSides -> Maybe (TileType, TileOrientation)
+getMove x y = case y of 
+(City, Farm, Farm, City)  -> if match x y then Just ('N','E') else Nothing
+\end{verbatim}
+ 
+Para calcular todas as jogadas possíveis, implementou-se a função legalMov. Esta função recebe uma dummy
+tile, uma lista com \texttt{TileWithSides}, esta a lista de constantes com as \texttt{TileWithSides} com todas as orientações,
+colocadas também numa constante (\texttt{moves}) e uma outra lista que terá o efeito de acrescentar as peças
+com que faz o \texttt{match} para aquela posição, à medida que obtém as jogadas criadas a partir da função \texttt{getMove}.
+De notar, esta função aplica a função hasMove que totaliza a função no caso de não houver um match e
+verifica se uma orientação já foi comparada, evitando assim um duplo match, simulando uma rotação de cada
+peça adjacente. Esta função devolve uma lista de pares onde o primeiro elemento do par são as coordenadas da peça adjacente, outro
+elemento do par é  o tipo de peça e a sua orientação, para aquela posição, i. e., obtém a lista de jogadas
+possíveis para aqueçla posição. Esta função é aplicada na função \texttt{legalMoves} que a partir de uma lista de posições adjacentes já com os lados atualizados compara com as
+constantes definidas em moves e devolve todas as jogadas possíveis para todas posições adjacentes.
+
+Outras funções  foram implementadas para operações  para cálculos, nomeadamente, cálculo  das posições
+adjacentes com  as posições  de tabuleiro  (função \texttt{cleanRep}), a  função que  obtém apenas  as posiçoes
+existentes no tabuleiro (função \texttt{coorTile} ). De igual modo, foram implementadas funções que eliminam todas peças que não sejam adjacentes
+nem do tabuleiro, ou seja, todas as dummy tiles vazias  criadas com a função createBoard (funções  \texttt{getNonAdj} e
+\texttt{getNonAdjs}), obtendo assim todas as peças relevantes (\texttt{dummy tiles} e peças existentes no tabuleiro). Todas
+estas funções são funções auxiliares para cálculo, e para não tornar este documento exaustivo, decidiu-se
+omitir a impelmentação destas. 
+Por último, para calcular todas as jogadas possíveis foi implementada a função \texttt{mapBoard}. Note-se que esta
+função implementa a função dada em aulas - função \texttt{triples}. Assim, a função \texttt{mapBoard}, que recebe um Element,
+obtido do parse do documento em XML que representa o tabuleiro, efetua as seguintes operações:
+
+Obtém a lista de triplos do \texttt{Element}
+Obtém todas as posições do tabuleiro, a partir dos valores máximos das coordenadas do tabuleiro incrementados numa unidade,
+assim como todos os valores mínimos das coordenadas do tabuleiro decrementados numa posição;
+Obtém as posições existentes do tabuleiro;
+Obtém todas as posições adjacentes e do tabuleiro
+Cria a matriz com todas as peças vazias, vazias adjacentes e presentes no tabuleiro no formato (Coord,
+TileWithSides);
+Concatena a lista obtida da aplicação da função createBoard
+Obtém todas as posições não adjacentes, nem presentes no tabuleiro
+Remove todas as peças vazias não adjacentes, a partir das posições obtidas da operação anterior
+Filtra apenas as peças vazias ( neste caso já são as peças adjacentes)
+Aplica a função getWestEast às peças obtidas no operação anterior comparando com as posições existentes no
+tabuleiro
+Aplica a função  \texttt{getNorthSouth} às peças obtidas no operação anterior , da filtragem das peças vazias
+Aplica função merge às duas últimas listas obtidas 
+Remove as posições existentes e peças vazias do tabuleiro e adiciona a lista com as peças adjacentes
+transformadas
+Aplica a função legalMoves a lista resultante da operação anterior 
+
+Após estas operações a função \texttt{mapBoard} devolve todas jogadas possíveis.
+
+O seguinte passo na implementação foi a implementação de uma função que filtrasse de todas as jogadas possíveis pela peça no \texttt{tag next}.
+Para tal foram implementadas três funções: a função \texttt{getNext}, a função \texttt{getTile} e a função \texttt{legalMovesByTile}. A função \texttt{getNext} , tal como a função \texttt{getTile}, são similares a outras funções utilizadas neste projeto nomeadamente, as funções getType, ou getMeepleType utilizadas no programa \texttt{Draw}. A função \texttt{getNext} simplesmente 
+obtém do \texttt{Element} obtido do parse do documento XML, elemento do tipo next e afunção getTile extraí o valor do atributo tile dentro do elemento.
+A função \texttt{legalMovesByTile} aplica um filtro a todas as jogadas possiveis através do valor obtido da aplicação getTile após a aplicação da função \texttt{getNext}.
+Deste modo, apenas é necessário calcular uma jogada, pela estratégia escolhida, neste caso a aleatória. Nesta fase de implementação pensou-se como implementar uma função que escolhesse uma peça aleatóriamente. Decidiu-se então implementar a função \texttt{generatePlay}. Esta função gera um número aleatória entre 0 e valor máximo do índice da lista criada pela função \texttt{legalMovesByTile}. Outra função implementada, é a função \texttt{getPlay}. Esta função extraí o elemento da lista pelo número aleatório gerado, e, se a lista for vazia, devolve a jogada inicial. Decidiu-se que a jogada inicial seria a peça E, na orientação Este, e logicamente na posição da origem do referencial. Em seguida pensou-se se poderia haver uma estratégia alternativa à jogada aleatória. Dado que uma implementação do género seria extremamente difícil, pensou-se colocar \texttt{follower}s do tipo F até acabarem. No entanto, dado a uma avaliação errada das regras do jogo, conclui-se mais tarde após testes, e sob conselho do Professor Doutor Alcino Cunha, que tal implementação não seria possível , uma vez que não é possível colocar um follower em terreno controlado por outro follower, mesmo sendo um follower do tipo F. Mesmo assim foram implementadas algumas funções, tais como a função \texttt{validFollower} que verifica dada uma determinada peça, validava se colocava o follower ou não, a função tileXYF que obteria o follower com o número de jogador atraveś de funções anteriormente utilizadas (a função triples e e a função board implementadas no programa Draw), a função que calcula qual o jogador a jogar (filter com afunção nextPlayer dada em aula) e o cálculo da diferença do número de followers em campo com a constante meeples criada para o efeito. Todas estas funções ficaram definidas na função caclFollower, no entento a única operação que esta implementa é a função nMeeple. Esta função recebe um número de followers, que seria calculado entre a diferença dos que estariam dispostos no tabuleiro pela constante meeples, recebe o Element obtido do parse do documento em XML, a lista de jogadas possíveis, o inteiro gerado aleatóriamente do generatePlay e e devolve um Element com a jogada. Note-se que esta função implementa a função getPlay para extraír a jogada válida, como parâmetro da função makeElement (esta recebe uma jogada válida e cria um Element do tipo tile com esses valores. Note-se que houve, uma pequena alteração: parte que colocaria o follower foi retirada, deixado a apenas a função criar um Element sem follower.
+Na fase que se seguiu implementaram-se as seguintes funções: a função calcFollower, já mencionada, a função \texttt{processa} e a função movePlay. A primeira, como já foi referido, cria um Element com uma jogada válida, a segunda aplica a função mapBoard, ou seja, a função que obtém todas as jogadas possíveis, e filtra essas jogadas com a função legalMovesByTile, devolvendo assim, todas as jogadas legais, a terceira a movePlay, implementa a função generatePlay para obter o número aleatório e a função calcFollower para obter uma Element com uma jogada válida, devolvendo um IO Element. Este IO Element é gerado pela função main que aplica a função movePlay e devolve no output uma tag do tipo tile com uma jogada válida.
+
+
+
+
+\section{Testes}
+
+Para este  programa foram  feitos, tanto  testes através  do GHCI  para determinadas  funções, utilização
+do  comando  runhaskell,  depuração linha  a  linha  do  código  com observações  de  resultados e alguns
+\emph{scripts} em \emph{BASH}. 
+
+Para o teste deste programa, para além de se testar as funções através do seu comportamento, foram criados alguns ficheiros XML para visualizar o seu output, nomeadamente representações do tabuleiro onde a única peça possível seria a peça descrita no elemento next, como por exemplo ficheiros em XML onde a peça C teria de encaixar no meio de um conjunto de peças. Para testar a jogadas foi criado um script que adiciona a peça gerada pelo Play a um ficheiro XML, recebendo como parâmetro o ficheiro com a representação onde se pretende aplicar a jogada. Deste modo pôde-se verificar, de forma célere, se a peça faria uma match ou não. O script é o seguinte:
+ 
+\begin{verbatim}
+#!/bin/bash
+file=``$1''
+for f in $file
+do
+  echo ``Processing $f file'' 
+    sed ``/<terrain>/s|$|$(runhaskell Playhs < $f )|'' $f > tmp
+      # take action on each file $f store current file name
+        runhaskell Drawhs < tmp
+	  rm -r tmp
+	  done
+	  
+
+\end{verbatim}
+
+
+
+

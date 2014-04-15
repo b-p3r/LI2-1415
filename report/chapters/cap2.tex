@@ -1,0 +1,311 @@
+\chapter{Programa Draw}
+
+\section{Análise do Problema}
+
+%1. Hipótese / Objetivo. Em primeiro lugar, referir o que se está a tentar descobrir, ou tentar fazer, da froma mais clara possível
+
+O programa \texttt{Draw} tem por objetivo, dada uma descrição de um estado de jogo em XML do
+\texttt{stdin}, "desenhar" no \texttt{stdout} o mesmo tabuleiro em caracteres ASCII, usando os seguintes
+caracteres para a sua representação:
+\begin{itemize}
+\item '*' para a cidade;
+\item '.' para campo 
+\item 'O' para claustro;
+\end{itemize}
+Para a representação das  peças dos jogadores - \emph{followers}- são usados  dígitos com uma determinada
+ordem conforme o seu tipo, e colocados em cada  peça com determinada ordem. De igual modo, as configurações
+de cada  peça por tipo, orientação  e com o  \emph{follower} (neste caso o  peão do jogador 1)  figuram na
+seguinte tabela:
+\begin{table}[H]
+\centering 
+\begin{tabular}{| c | c | c | c | c |}
+\hline
+Tipo & Empty & Monk & Farmer & Knight \\ 
+\hline
+E  &  \texttt{*****} &   ~     &  \texttt{*****}  & \texttt{*****} \\ 
+   &  \texttt{.***.} &   ~     &  \texttt{.***.}  & \texttt{.*1*.} \\ 
+   &  \texttt{..*..} &   ~     &  \texttt{..*..}  & \texttt{..*..} \\ 
+   &  \texttt{.....} &   ~     &  \texttt{.....}  & \texttt{.....} \\
+   &  \texttt{.....} &   ~     &  \texttt{..1..}  & \texttt{.....} \\
+\hline
+N  &  \texttt{*****} &   ~     &  \texttt{*****}  & \texttt{*****} \\ 
+   &  \texttt{****.} &   ~     &  \texttt{****.}  & \texttt{*1**.} \\ 
+   &  \texttt{***..} &   ~     &  \texttt{***..}  & \texttt{***..} \\ 
+   &  \texttt{**...} &   ~     &  \texttt{**.1.}  & \texttt{**...} \\ 
+   &  \texttt{*....} &   ~     &  \texttt{*....}  & \texttt{*....} \\ 
+\hline
+B  &  \texttt{.....} &  \texttt{.....} &   \texttt{..1..} &    ~     \\   
+   &  \texttt{..O..} &  \texttt{..O..} &   \texttt{..O..} &    ~     \\ 
+   &  \texttt{.OOO.} &  \texttt{.O1O.} &   \texttt{.OOO.} &    ~     \\ 
+   &  \texttt{..O..} &  \texttt{..O..} &   \texttt{..O..} &    ~     \\ 
+   &  \texttt{.....} &  \texttt{.....} &   \texttt{.....} &    ~     \\ 
+\hline
+C  &  \texttt{*****} &   ~     &     ~     & \texttt{*****} \\ 
+   &  \texttt{*****} &   ~     &     ~     & \texttt{*****} \\ 
+   &  \texttt{*****} &   ~     &     ~     & \texttt{**1**} \\ 
+   &  \texttt{*****} &   ~     &     ~     & \texttt{*****} \\ 
+   &  \texttt{*****} &   ~     &     ~     & \texttt{*****} \\ 
+\hline
+\end{tabular}
+\caption{Peças em formato ASCII}
+\end{table}
+
+A  abordagem  da  análise  do  problema  utilizada  foi  tentando  descobrir  através  de  heurísticas,  de
+como  o programa  podería  ser  implementado. Em  primeiro  lugar, tentou-se  perceber  de  como poderiam  as
+\texttt{strings}, que compõem cada  peça, ser representadas e chegou-se à conclusão óbvia,  de que o tipo
+de  dados seria  uma lista  de  listas do  tipo -  \texttt{[[String]]}.  De seguida,  tentou-se perceber  como
+proceder, para criar  algo para poder igualar as listas  conforme a orientação. Uma vez que,  as peças são
+matrizes  e,  ao  mesmo  tempo  são  listas,  aplicaram-se  algumas  técnicas,  tais  como,  a  técnica  de
+transposição de matrizes e  as operações sobre listas em Haskell. Deste  modo, conseguiu-se descobrir como
+seria o procedimento para operar nas listas para obter as orientações pretendidas:
+
+- Para a peça N:
+			 Orientação Norte - orientação da matriz por defeito;
+			 Orientação Oeste- inversão da ordem das linhas da matriz;
+			 Orientação Este - ordem das linhas da matriz, criando um matriz "espelho" da original;
+			 Orientação Sul - inversão da lista no seu todo, depois da inversão de cada linha da matriz;
+	
+- Para a peça E:
+		
+			 Orientação Norte - orientação da matriz por defeito;
+			 Orientação Oeste - obtenção da matriz transposta;
+		     Orientação Este - inversão da ordem das linhas da matriz, e de seguida a transposta do primeiro resultado; 
+			 Orientação Sul - inversão da ordem das linhas da matriz;
+		
+- Para a peça B:
+		
+			 Qualquer orientação é válida, uma vez que a peça igual em qualquer orientação.
+
+		
+- Para a peça C:
+		
+	        Qualquer orientação é válida, uma vez que a peça igual em qualquer orientação.
+		
+
+
+
+De seguida,  tentou-se perceber de  que forma o  tabuleiro, no seu todo,  seria representado. Tinha-se  que, o
+tabuleiro, tal como  um tabuleiro de xadrez, teria coordenadas,  e de igual modo, facilmente se  conclui que o
+tabuleiro do  \emph{Haskassone} seria igual,  i. e., o  tabuleiro seria uma matriz  onde cada peça  teria uma
+coordenada. Todavia colocou-se  a questão de como  as posições vazias seriam representadas.  Uma vez que,
+todas as posições da matriz eram mandatórias, chegou-se à conclusão de que as posições sem peça teriam
+de ser representadas por uma  matriz, também quadrada de ordem 5, onde os  seus elementos seriam espaços. De
+igual modo,  procedeu-se a uma análise  de como criar a  estrutura do tabuleiro (achar  limites do tabuleiro,
+criar uma  estrutura com coordenadas) e,  não menos importante, extrair  informação do ficheiro em  XML, no
+entanto, na  altura, não  se concluiu  nada de  concreto., Sob  conselho do  Professor Doutor  José Bernardo
+Barbosa,  docente  da Universidade  do  Minho,  decidiu-se deixar  desenrolar  as  aulas de  Laboratórios  de
+Informática  I, e  depois tentar  achar uma  implementação possível.  Com o  desenrolar das  aulas, muitas
+questões foram respondidas,  tais como, p. e. criar  a estrutura com as posições e  extrair informação do
+ficheiro  XML. Após  ter  a  estratégia, mais  ou  menos definida,  avançou-se  para  a implementação  em
+\emph{Haskell}
+
+
+\section{Implementação}
+
+Muitas das funções  dadas em aula, praticamente, resolviam metade dos problemas de  implementação. As funções
+dadas em aula foram as seguintes:
+\begin{itemize}
+
+\item A função \texttt{triples ::  Element ->  [(Int,  Int,  Element)]}
+\begin{description}
+\item[A função \texttt{triples} obtem uma lista de triplos com as coordenadas de cada elemento do tipo \emph{tile} e o próprio elemento]
+\end{description} 
+\item A função \texttt{getLimits :: [(Int, Int, Element)] -> (Int, Int, Int, Int)}
+    \begin{description}
+\item[A função \texttt{getLimits} obtem os limites do tabuleiro de volvendo num quadruplo]
+\end{description} 
+\item A função \texttt{tileXYC ::  [(Int, Int, Element)] ->  (Int, Int) -> Char}
+\begin{description}
+\item[A função \texttt{tileXYC} procura na lista de triplos, o tipo de \emph{tile}, caso contrário devolve '\_']
+\end{description}
+\item A função \texttt{getTiles :: Element -> [Element]}
+\begin{description}
+\item[A função \texttt{getTiles} obtem todos os elementos do tipo \emph{tile} dentro elemento extraído de \emph{parse} do documento XML]
+\end{description}
+\item A função \texttt{getX ::  Element -> Int}
+\begin{description}
+\item[A função \texttt{getX} obtem o valor de \emph{x} do elemento de tipo \emph{tile}]
+\end{description}
+\item A função \texttt{getY :: Element ->  Int}
+ \begin{description}
+\item[A função \texttt{getY} obtem o valor de \emph{y} do elemento de tipo \emph{tile}]
+\end{description}
+\item A função \texttt{getType :: Element -> Char }
+ \begin{description}
+\item[A função \texttt{getType} obtem o valor do tipo de peça, contido no elemento de tipo \emph{tile}]
+\end{description}
+\item A função \texttt{lX :: [(Int, Int, Element)] -> [Int]}
+\begin{description}
+\item[A função \texttt{lX} obtem a lista de todos os valores de \emph{x} do tabuleiro]
+\end{description}
+\item A função \texttt{lY :: [(Int, Int, Element)] -> [Int]}
+\begin{description}
+\item[A função  \texttt{lY} obtem a lista de todos os valores de \emph{y} do tabuleiro]
+\end{description}
+\item A função \texttt{tb :: (Int, Int, Int, Int)  -> [[(Int, Int)]}
+\begin{description}
+\item[A função \texttt{tb} cria uma lista de listas com posições de todas as posições do tabuleiro, incluindo posições sem peça]
+\end{description}
+\item A função \texttt{drawS :: Element -> [String]}
+\begin{description}
+\item[A função \texttt{drawS} cria uma lista de listas, em cada lista corresponde a uma \emph{string} com o tipo de peças nessa linha, incluindo espaços vazios]
+\end{description}
+\end{itemize}
+
+Obviamente todas as funções apresentadas eram para ser usadas na implementação deste programa. Deste modo,
+tentou-se perceber como encaixar as ideias, anteriormente  descritas, para a implementação. O primeiro passo
+foi a  criação de  constantes para  os valores  das matrizes. Cada  matriz corresponderia  a uma  peça não
+orientada,  e,  deste modo,  ter-se-ia  de,  através  de alguma  função,  obter  essas constantes  e  fazer
+algumas  operações sobre  elas para  obter a  orientação  e colocar  o \emph{follower}.  Depois de  alguma
+observação,  concluiu-se que  a função  \texttt{tileXYC} poderia  ser adaptada  para obter  as peças  e a
+orientação, e  possívelmente, o \emph{follower}  com o seu  tipo e o número  do jogador que  o representa.
+Para  tal, implementaram-se  as  funções  \texttt{getOrientation}, \texttt{getFollower},  \texttt{getPlayer}
+e  \texttt{getMeepleType}.  A  implementação   das  funções  \texttt{getOrientation},  \texttt{getPlayer},
+\texttt{getMeepleType}, baseou-se  na forma de  implementação dada  em aula das  funções \texttt{getType},
+\texttt{getX},  \texttt{getY},  tal que,  a  função  \texttt{getOrientation} e  \texttt{getMeepleType}  são
+parecidas,  diferindo  apenas  do  tipo  de   \texttt{Element}  de  que  extraíem  informação.  A  primeira
+função  obtém um  caractere  com a  orientação,  extraído  do \texttt{Element}  do  tipo \emph{tile};  a
+segunda  obtém, de  igual modo,  um caractere  com  o tipo  de \emph{follower},  no entanto  é extraído  do
+\texttt{Element}  do  mesmo  tipo.  A  função  \texttt{getPlayer} tem  uma  implementação  similar  à  da
+função  \texttt{getX} ou  da função  \texttt{getY}: tal  como estas,  aquela obtém  um inteiro  extraído
+de  um  \texttt{Element},  todavia, neste  caso,  o  \texttt{Element}  é  do tipo  \emph{follower}.  Após  a
+implementação destas funções, avaliou-se a necessidade de obter o \texttt{Element} do tipo \emph{follower}
+do \texttt{Element}  do tipo  \emph{tile}. Após observação  da livraria  \texttt{Text,XML.Light}, utilizada
+neste  projeto para  manipulação de  dados obtido  do\emph{parse} do  documento XML,  constatou-se que  não
+existe  nenhuma função  para extraír  apenas um  \texttt{Element}. Todavia,  constatou-se a  existência da
+função  \texttt{findElement} que  devolve um  \texttt{Maybe Element},  o que  faz sentido,  uma vez  que uma
+\emph{tile}  pode  ter ou  não  conteúdo.  Para o  efeito,  implementou-se  a função  \texttt{getFollower}
+que  devolve um  \texttt{Maybe  Element}. Para  extraír  o \texttt{Element}  do  \texttt{Maybe Element},  foi
+implementada na  função \texttt{makeTile} (descrita a  seguir), que utiliza a  função \texttt{fromJust} da
+livraria \texttt{Data.Maybe}. Todavia,  para evitar o erro \texttt{Maybe.fromJust:Nothing},  obtido do retorno
+da  função  \texttt{fromJust}  no caso  de  o  resultado  ser  \texttt{Nothing}, implementou-se  a  função
+\texttt{hasMeeple}. Esta função, valida  se o \texttt{Element} do tipo \emph{tile}  tem \emph{follower} e é
+utilizada para totalizar a função \texttt{makeTile}.
+
+A fase que  se seguiu foi a  implementação das funções \texttt{rotate} e  \texttt{putFollower}. A função
+\texttt{rotate} é a função que implementa as operações sobre listas, descritas na secção \emph{Análise
+do Problema} no início deste capítulo. Esta recebe o tipo de peça, a sua orientação, o número de jogador e o
+tipo de \emph{follower}. Como já foi mencionado, foram utilizadas constantes, que representam
+as peças não orientadas como listas de \emph{strings}. A função \texttt{rotate} opera sobre essas constantes,
+exceto no caso de a peça possuir um \emph{follower}. Todas as peças com a orientação Norte ficaram com os
+valores por defeito, e apenas implementaram-se as transformações para obter a orientação nas peças E e N.
+Para o efeito da orientação Oeste na peça E, ou seja, a inversão da ordem das linha da matriz,
+ foi utilizada a função \texttt{reverse} do \texttt{Data.List} sobre a constante que a representa. Para o
+efeito da orientação Este foi implementada a função \texttt{mirror}, que inverte a ordem de cada
+\emph{string} da constante da peça E e, para o efeito da orientação Sul da peça, foi aplicada a função
+\texttt{reverse} para inverter a ordem das \emph{strings}, depois foi aplicada a função \texttt{mirror}.
+Para a peça E e para obter o efeito da orientação Oeste, foi utilizada a função \texttt{transpose} do
+\texttt{Data.List} para transpor todos os elementos da constante que a representa. Para orientação Este da
+mesma peça, foi utilizada a função \texttt{reverse} seguida da função \texttt{transpose} e, para orientação
+Sul apenas se inverteu a ordem dos elementos da matriz. Abaixo está o exemplo da implementação da função
+\texttt{rotate}, sem \emph{follower} para as peças N e E, onde \emph{n} é o valor da constante da peça N e
+\emph{e} é o valor da constante da peça E:
+\begin{verbatim}
+rotate 'N' 'N' _ 0  = n
+rotate 'N' 'W' _ 0  = reverse n
+rotate 'N' 'S' _ 0  = reverse$mirror n
+rotate 'N' 'E' _ 0  = mirror n
+rotate 'E' 'N' _ 0  = e
+rotate 'E' 'W' _ 0  = transpose e
+rotate 'E' 'E' _ 0  = transpose$reverse e
+rotate 'E' 'S' _ 0  = reverse e
+\end{verbatim}
+Note-se que a função \texttt{rotate}, em caso a peça não possuir um \emph{follower}, pode receber um caractere
+qualquer, exceto os caracteres 'N', 'E', 'B' e 'C',  e 0 para o número de jogador. Para o caso de a peça ter
+um \emph{follower} foi implementada a função \texttt{putFollower}. Esta função recebe o tipo de
+\emph{follower} e o número de jogador. Aqui as constantes definidas para as peças não são usadas. Neste caso
+implementaram-se diretamente as listas das peças, concatenando o número do jogador com a lista de
+\emph{strings} mediante a posição nestas, definidas pelo tipo de \emph{follower}. Abaixo fica um exemplo da função
+\texttt{putFollower} para a peça B com um \texttt{follower} do tipo M:
+
+\begin{verbatim}
+
+putFollower 'B' 'M'  n = [".....",
+                          "..O..",
+                    ".O"++(show n)++"O.",
+                          "..O..",
+                          "....."]
+                        
+\end{verbatim}
+
+A função  \texttt{putFollower} está implementada na  função \texttt{rotate}, onde as  operações para as
+orientações  são  as  mesmas  das  peças sem  \emph{follower}.  A  função  \texttt{makeTile}  implementa
+as  funções  \texttt{rotate},  \texttt{hasMeeple}  e  as   funções  para  obtenção  de  informação  do
+\texttt{Element} do tipo \emph{tile}  já mencionadas. Esta função foi utilizada  na adaptação da função
+dada  em aula - \texttt{tileXYC} -, definida com um novo nome - \texttt{tileXY} - na implementação  adaptada, que  neste caso
+devolve uma  lista de \emph{strings},  ao invés de  um caractere  como a função  original. No caso  de não
+existir  esse elemento  devolve a  constante definida  para o  efeito: uma  lista de  strings com  o caractere
+espaço. O passo  seguinte foi criar uma  função que juntasse todas  as peças já orientadas  numa lista, e
+para esse  foi criada  a função \texttt{makeRow}.  A função makeRow  recebe, o resultado da função \texttt{triples} definida em aula, uma lista de
+posições, neste caso correspondente a uma qualquer linha do tabuleiro e devolve a lista mencionada. A função
+\texttt{glue} foi implementada com o intuito de "colar" os elementos resultantes da aplicação da função
+\texttt{makeRow} devolvendo assim, uma lista única de \emph{strings} correspondente a uma linha da matriz. Para implementar esta funcionalidade, implementou-se a função \texttt{makeBoard}, que preenche o tabuleiro de forma a obter uma lista de \emph{strings} pronta para
+implementação da adaptação da função \texttt{drawS} dada em aula. Aquela implementa um \texttt{map} da
+aplicação da função \texttt{glue}, após a obtenção do resultado da função \texttt{makeRow} a cada elemento da
+matriz. O resultado é depois concatenado na lista de \emph{strings} pronta para implementação da função
+\texttt{drawS}. A função \texttt{drawS} recebe a lista de \emph{strings} e através da função \texttt{unlines}
+desnha o resultado no ecrâ
+
+
+
+
+
+\section{Testes}
+
+Para este  programa foram  feitos, tanto  testes através  do GHCI  para determinadas  funções, utilização
+do  comando  runhaskell,  depuração linha  a  linha  do  código  com observações  de  resultados,  alguns
+\emph{scripts} em \emph{BASH}, com também criado um target num  Makefile para o efeito. Os testes em linha de
+comando foram  efetuados, como  referido, para verificar  algumas funções. Por  exemplo, nas  funções para
+concatenação de  todas as  listas resultantes  das operações descritas  anteriormente tentou-se  chegar ao
+resultado  esperado  por  tentativa-e-erro.  Este  método  foi, de  igual  modo,  usado  na  observação  de
+comportamento de algumas funções  e na de obtenção de erro das mesmas.  Por exemplo, na implementação da
+totalização da função makeTile  teve que se observar o resultado do erro  da extração de informação do
+Element follower. Como nessa  função foi necessário extraír um Element de um  Maybe Element com a função
+fromJust é natural que se tivesse chegado ao erro Maybe.fromJust:Nothing.
+
+ De igual modo,  utilizou-se o comando runhaskell para  verificar o output de cada ficheiro  para verificar se
+era o resultado  esperado. Por exemplo, para  verificar se determinada peça estava  bem orientada, criaram-se
+ficheiros  XML  com  apenas representação  daquela  peça.  De  seguida,  executou-se o  comando  runhaskell
+<ficheiro.xml para  verificar o  output. Para o  mesmo efeito,  foram criados tabuleiros  de grande,  média e
+pequena dimensão,  com grande diversidade  de peças,  orientações e número  de jogadores para  observar o
+resultado. Neste  último caso,  numa primeira fase  de testes descobriram-se  alguns erros,  nomeadamente, na
+obtenção dos limites mínimos e máximos do  tabuleiro. Por várias vezes a implementação destas funções
+simples  deram  problemas.  Numa  primeira  fase  de implementação,  um  tabuleiro  de  grandes  dimensões,
+nomeadamente de 34  peças demorava cerca de  um minuto a ser  "desenhado". As funções de  mínimo e máximo
+estavam implementadas com recursividade primitiva. A solução  foi implementar novas funções com a função
+min e max do Haskell.  No entanto, posteriormente, aconteceu, por vezes, o output  de alguma peça descrita no
+ficheiro XML nos extremos ser a matriz para o espaço  em branco. Neste último caso as funções de mínimo e
+máximo não estava  definida para o caso  da lista com um único  elemento. Os testes com  tabuleiros com uma
+peça, permitiram descobriu que algumas orientações estavam  incorretas, nomeadamente a posição Sul e Este
+estavam trocadas.  De igual modo,  estes testes permitiram  verificar a posição onde  se estava a  colocar o
+follower estava  errada permitindo corrigir o  erro. Do mesmo  modo, foram criados outras  representações do
+tabuleiro nomeadamente para casos ditos absurdos, como os casos de tabuleiros com peças separadas sem nenhuma
+ligação para verificar a colocação do espaços, ou mesmo criar representações com mútiplas peças com o
+número das  mesmas exagerado. estes  testes permitiram  ver se o  programa funcionava corretamente  mesmo nas
+possibilidades mais  remotas O target  na Makefile foi  dado em  aula, foi criado  para verificar o  output de
+resultados  de tabuleiros  anteriormente criados.  Em caso  de alguma  modificação da  estrutura interna  do
+programa,  como  por  exemplo,  no  caso  de  elaborar  um refactoring,  como  foi  o  caso  para  elaborar  a
+documentação, executendo  o camando make test  pode-se ver que todos  os tabuleiros estavam OK.  Também foi
+elaborado um  scripts em  BASH, para  gerar os  ficheiros de output  recursivamente. Em  casos de  certeza das
+alterações,  esse  script  permitia  criar  o  ficheiro  rapidamente.  No  caso  anteriormente  descrito  da
+orientação  Sul e  Este trocada,  rapidamente  se pode  gerar rapidamente  todos  os ficheiros  de output  e
+verificar as alterações.  O script é o seguinte e  foi executado a partir da pasta  onde o programa Draw.hs
+estava colocado:
+
+\begin{verbatim}
+#!/bin/bash
+FILES=../tests/*
+for f in $FILES
+do
+  echo "Processing $f file..."
+ 
+  runhaskell Draw.hs < $f > "${f%.*}".out
+done
+
+\end{verbatim}
+De igual modo, houve o caso do tabuleiro vazio que teria de imprimir no ecrâ, uma linha em branco. A função
+de obtenção dos limites estava mal concebida, e no caso de um tabuleiro vazio devolvia os mesmos limites que
+o tabuleiro s+o com uma peça. Daí a implementação da função isEmptyBoard.
+De resto neste programa não foram implementados outro tipo de testes.
+
+ 

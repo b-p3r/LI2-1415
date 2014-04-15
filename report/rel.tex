@@ -1,0 +1,45 @@
+\documentclass[pdftex,12pt,a4paper]{report}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{fancyvrb}
+\fvset{xleftmargin=2em}
+
+
+\usepackage[utf8]{inputenc} % isto é um comentário
+\usepackage[portuges]{babel}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+\input{./report/title}
+
+\begin{abstract}
+O presente documento incide sobre a implementação do projeto \emph{Haskassone}, um jogo que é baseado no atual
+jogo de estratégia \emph{Carcassone}, e implementado em \emph{Haskell}. Neste documento estarão relatados os 
+procedimentos necessários à implementação do jogo, tais como, análises de cada problema, aquisição de
+conhecimentos para a resolução dos mesmos, testes efetuados e os resultados obtidos, bem como a discussão dos
+resultados e conclusões obtidas.
+\end{abstract}
+
+\tableofcontents
+
+\input{./report/chapters/introducao}
+\input{./report/chapters/cap1_enunciado}
+\input{./report/chapters/cap2}
+\input{./report/chapters/cap3}
+%\input{./report/chapters/cap4}
+\input{./report/chapters/conclusao}
+
+%%\input{./chapters/introducao}
+%%\input{./chapters/cap1_enunciado}
+%\input{./chapters/cap2}
+%\input{./chapters/cap3}
+%%\input{./chapters/cap4}
+%%\input{./chapters/conclusao}
+
+\end {document}
+
+

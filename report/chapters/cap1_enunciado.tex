@@ -1,0 +1,131 @@
+
+\chapter{Enunciado}
+
+O \emph{Carcassone},  jogo em que  se baseia a  implementação, é um jogo  de estratégia de  colocação de
+peças com  um determinado padrão,  que representam um  tipo de território, cujo  o objetivo é  construir o
+máximo  de estruturas  - cidades,  claustros, estradas  e quintas,  com um  peão que  controle a  estrutura,
+acumulando pontos ao longo do  jogo e somando-os no final. O jogo pode ser jogado  por três a cinco jogadores
+e, cada  jogada efetua-se, escolhendo uma  peça do baralho de  peças do jogo, sendo  colocada numa posição
+adjacente que  corresponda ao padrão da  peça escolhida. Cada jogada  possui a opção de  colocação de um
+\emph{follower}, ou peão,  que marca a peça  no domínio escolhido (cidade, claustro,  quintas, estradas, ou
+campo).
+
+O tabuleiro de jogo uma paisagem medieval construída pelos jogadores à medida que o jogo progride. O jogo começa com
+uma única peça e 71 outras baralhadas e  viradas para baixo para os jogadores para retirar. 
+Em cada volta o jogador coloca uma peça de terreno e coloca-o ao lado de peças que já foram viradas para cima.
+A nova peça deve ser colocada de forma a estender os recursos que o jogador já possui: 
+estradas devem ligar estradas , campos devem ligar campos, e cidades devem ligar cidades.
+
+Depois da coloca
+O XML é um formato de codificação de informação muito popular hoje em dia. Mais informações sobre este
+formato em. Neste projecto vamos usar este formato para representar os
+diferentes estados do jogo. Um estado do jogo será representado pelo elemento \texttt{board}. Dentro este
+elemento encontram-se dois elementos obrigatórios:
+\begin{itemize}
+
+\item\texttt{terrain}
+\end{itemize}
+Este elemento descreve o estado actual do terreno; O terreno é descrito por uma sequência de elementos
+\texttt{tile}, cada um tendo como atributos obrigatórios o tipo da peça (B, C, E ou N), as coordenadas onde
+se encontra a peça (a primeira peça colocada no tabuleiro está na origem), e a orientação da mesma (N, S,
+E, W). Opcionalmente, dentro do elemento \texttt{tile} pode aparecer um elemento \texttt{follower}, ou peão.
+Caso exista algum \emph{follower} nessa peça. Neste caso será indicado nos atributos qual o jogador a que
+pertence o mesmo e qual o seu tipo (K, de \emph{knight}, quando se encontra na cidade; M, de \emph{monk},
+quando se encontra no claustro; ou F, de \emph{farmer}, quando se encontra no campo). Note que para as peças
+que vamos usar dado o tipo do follower nunca é ambíguo onde se encontra.
+\begin{itemize}
+\item\texttt{scores}
+\end{itemize}
+Este elemento descreve as pontuações actuais. As pontuações são indicadas por uma sequência de elementos
+\texttt{score} e, tendo como atributos o identificador de cada jogador e a respectiva pontuação. Caso o
+jogo ainda não tenha terminado, existirá também um elemento \texttt{next} que indica qual o tipo da peça
+que o próximo jogador terá que jogar. A seguir se apresenta um possível exemplo de um documento XML,
+descrevendo um estado válido do jogo.
+\begin{verbatim}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<board>
+   <terrain>
+       <tile type="E" x="0" y="0" orientation="E">
+	   <follower player="1" type="K"/>
+       </tile>
+       <tile type="N" x="1" y="0" orientation="W"/>
+       <tile type="B" x="0" y="-1" orientation="N">
+           <follower player="1" type="M"/>
+        </tile>
+        <tile type="E" x="-1" y="0" orientation="W">
+           <follower player="2" type="K"/>
+       </tile>
+    </terrain>
+        <scores>
+           <score player="1" score="0"/>
+           <score player="2" score="0"/>
+       </scores>
+   <next tile="C"/>
+</board>
+
++\end{verbatim}
+
+
+% \\[0.1cm]
+
+\begin{figure}[H]
+  \caption{Imagem de tabuleiro}
+  \centering 
+    \includegraphics[width=0.5\textwidth]{./report/tile}
+\end{figure}
+
+Neste projeto devem implementar os seguintes programas:\\
+ 1. \texttt{Draw}\\
+Dada uma descrição do tabuleiro em XML no \texttt{stdin} este programa deve
+“desenhar” no \texttt{stdout} o terreno usando caracteres ASCII.Cada peça será
+representada por uma matriz de 5x5 caracteres, onde se usa '*' para cidade, '.'
+para campo, e 'O' para claustro, e dígitos para representar os followers de
+cada jogador.\\
+
+No caso do tabuleiro acima, o programa deverá imprimir o seguinte
+resultado
+\begin{verbatim}
+*........**....
+**......****...
+*2*....*1****..
+**......******.
+*........******
+     .....     
+     ..O..     
+     .O1O.     
+     ..O..     
+     .....     
+\end{verbatim}
+
+2. \texttt{Play} dada uma descrição do tabuleiro em XML no stdin este programa deve produzir uma jogada
+para a peça indicada na \emph{tag} \texttt{next}. Neste caso o output deve ser apenas uma \emph{tag} do tipo
+\emph{tile}, por exemplo:
+
+\begin{verbatim}
+<tile type="E" x="-2" y="-2" orientation="S"/>
+\end{verbatim}
+
+ou
+
+\begin{verbatim}
+<tile type="E" x="1" y="5" orientation="N">
+    <follower player="1" type="K"/>
+</tile>
+\end{verbatim}
+
+Aqui deve-se implementar várias versões do programa que seguem estratégias diferentes. O aspecto mais
+importante a ter em consideração é a correcção da estratégia, ou seja garantir que a jogada produzida
+coloca a peça numa posição adjacente a uma já existente no tabuleiro (ou na origem caso seja a primeira
+jogada), e que não são colocados mais do que 7 meeples de cada jogador, nem em cidades ou campos já
+controlados por outros meeples.\\
+
+3. \texttt{Next} dada uma descrição do tabuleiro em XML no \texttt{stdin} este programa deve atualizar as
+pontuações, retirar os \emph{meeples} que pontuam e, caso o jogo ainda não tenha terminado, sortear uma
+peça para colocar no elemento \texttt{next}. Note que, caso já tenham sido jogadas todas as peças, o jogo
+termina, e não deve ser gerada o elemento e devem ser usadas as regras de fim de jogo para calcular as
+pontuações e retirados todos os \emph{followers}. Este programa deve devolver no \texttt{stdout} uma nova
+representação do tabuleiro em XML.\\
+
+Os programas draw, play e next deverão ser implementados em Haskell.
+

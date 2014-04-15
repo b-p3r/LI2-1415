@@ -1,0 +1,83 @@
+\chapter{Programa Next}
+
+\section{Análise do Problema}
+
+%1. Hipótese / Objetivo. Em primeiro lugar, referir o que se está a tentar descobrir, ou tentar fazer, da
+%froma mais clara possível
+
+No programa Next, dada a descrição do tabuleiro em XML no stdin, tem o objetivo, para o caso de o jogo ainda
+nao tenha acabado, ir buscar uma peça aleatoriamente e coloca-la no elemento next. Caso já se tenham jogadas
+todas as  peças, o jogo  dá-se por terminado  e não é  gerado mais nenhum  elemento next. O  programa Next
+também tem  o objetivo de calcular  as pontuações durante  o jogo e  retirar os meeples que  já pontuaram,
+além de que o programa usa as regras de fim de jogo para recalcular as pontuações. O Next devolve no stdout
+uma nova representação do tabuleiro em XML.
+--processa :: Int -> Element -> String
+
+--ler ficheiro XML
+--ler jogada recebida
+
+  --  2 pontos por tile de cidade, caso seja fechada (retira o meeple)
+
+  {-- 9 pontos por claustro (mantém o meeple)
+        cidade com n meeples (pontuação dividida por n jogadores)--}
+
+--caso colocação da peça, verificar se fecha alguma coisa
+--caso contrário não conta
+
+--atualizar a pontuação do jogador que fecha algo
+
+--escrever ficheiro (adicionar element a lista de elements (com ou sem meeple)
+
+-- escrever no elemento scores (elemento player atributo player pontuação atual)
+
+-- ler fichero
+--caso fim de jogo contar todos 
+
+-- com novo(s)  datatype (s) criar estrutura 
+
+	-- cidade CLOSED | OPEN
+	-- claustro CLOSED | OPEN
+	
+
+	-- Sequência de cidades 
+        -- Sequência de claustros  
+	-- Sequência de quintas
+
+
+  {-- fim de jogo contam-se pontuam cidades incompletos que tenha um K
+        1 ponto por cada tile que contenha o contenha--}
+
+  {-- fim de jogo contam-se os claustros incompletos que contenham um M
+    	1 pelo M e 1 por cada tile que o rodeia--}
+  {-- fim de jogo pontos pelos F
+    	-- contar 3 pelos F por cada cidades abastecida completa não interessa a distância
+    	-- Vários F podem abastecer uma cidade 
+		- Maior número de pontos para o que tiver mais a abastecer uma cidades.
+		- Se empatados dividir pelo númerode jogadores--}
+
+
+
+
+%2. A experiência anterior. Descrever informações relevantes a partir da leitura efetuada, conselhos
+%recebidos,
+%e quaisquer outros factos relevantes.
+
+\section{Implementação e Testes}
+
+%3.(Planeamento/Implementação/Testes). Referir como foi projetado o programa, as simulações, incluindo o que
+%os
+%resultados devem ser considerados para confirmar a hipótese, e que resultados deveriam esperados para
+%rejeitá-la (com apoio de matemática,se for o caso).
+
+%4. Execução. O que aconteceu quando se executou o programa, o que aconteceu de errado, que 
+%coisas inesperadas aconteceram (se existirem).
+
+%5. Os resultados. Foi a hipótese confirmada ou rejeitada?
+
+\section{Conclusões}
+%6. Conclusões. Incluindo o que teria sido feito de uma forma melhor.
+
+
+
+
+
