@@ -19,7 +19,10 @@ CFLAGS = -ansi -Wall -Wextra -pedantic -O2
 #.PHONY: test 
 
 # escrever comando make test para compilar este target ( ou simplesmente make)
-test: tproc.o cadeias.o
+tarefa2: tarefa2.c
+	$(CC) $(CFLAGS) -o tarefa2 tarefa2.c
+
+cadeias: tproc.o cadeias.o
 	$(CC) $(CFLAGS) -o tproc tproc.o cadeias.o
 	#$(CC) $(CFLAGS) -o tproc tproc.c cadeias.c
  
@@ -32,7 +35,8 @@ cadeias.o: cadeias.c cadeias.h
 # escrever make clean para limpar pasta do código fonte 
 clean:
 	rm -r ./*.o
-	rm -r tproc
+	rm -f tproc
+	rm -f tarefa2
 
 
 
