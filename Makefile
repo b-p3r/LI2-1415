@@ -1,8 +1,6 @@
 SHELL := /bin/bash
 
-CC = gcc
-CFLAGS = -ansi -Wall -Wextra -pedantic -O2
-#PROGS =repDados\
+CC = gcc CFLAGS = -ansi -Wall -Wextra -pedantic -O2 #PROGS =repDados\
 #	tamTipos\
 #all: $(PROGS)
 #
@@ -19,24 +17,33 @@ CFLAGS = -ansi -Wall -Wextra -pedantic -O2
 #.PHONY: test 
 
 # escrever comando make test para compilar este target ( ou simplesmente make)
-tarefa2: tarefa2.c
-	$(CC) $(CFLAGS) -o tarefa2 tarefa2.c
 
-cadeias: tproc.o cadeias.o
-	$(CC) $(CFLAGS) -o tproc tproc.o cadeias.o
-	#$(CC) $(CFLAGS) -o tproc tproc.c cadeias.c
+
+
+
+compress: identificacao analise.pdf ./code ./doc tar jcf PLg039-et1.tar.bz2
+	identificacao analise.pdf code doc
+
+
+relatorio.pdf:  report/rel.tex pdflatex report/rel.tex pdflatex report/rel.tex
+	pdflatex report/rel.tex 
+	mv rel.pdf relatorio.pdf 
+	rm -fr rel.* 
+	rm -fr
+	report/chapters/*.aux
+	#rm -r report
+
+tarefa2: tarefa2.c $(CC) $(CFLAGS) -o tarefa2 tarefa2.c
+
+cadeias: tproc.o cadeias.o $(CC) $(CFLAGS) -o tproc tproc.o cadeias.o #$(CC)
+	$(CFLAGS) -o tproc tproc.c cadeias.c
  
-tproc.o: tproc.c cadeias.h
-	$(CC) $(CFLAGS) -c tproc.c
+tproc.o: tproc.c cadeias.h $(CC) $(CFLAGS) -c tproc.c
 
-cadeias.o: cadeias.c cadeias.h
-	$(CC) $(CFLAGS) -c cadeias.c
+cadeias.o: cadeias.c cadeias.h $(CC) $(CFLAGS) -c cadeias.c
 
 # escrever make clean para limpar pasta do código fonte 
-clean:
-	rm -r ./*.o
-	rm -f tproc
-	rm -f tarefa2
+clean: rm -r ./*.o rm -f tproc rm -f tarefa2
 
 
 
