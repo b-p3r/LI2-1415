@@ -1,12 +1,22 @@
 #include <stdio.h>
+
+
+/*!
+  \def MAX 1000
+  
+*/
+/*! 
+   Máximo para \e arrays, colunas e linhas de matrizes.
+*/
 #define MAX 1000
+ /*!< */
 
 /**
- * Este procedimento cria uma \e sopa \e de \e letras dado um nº de linhas, colunas e uma matriz que é preenchida pelo utlizador
+ * Este procedimento cria uma \e sopa \e de \e letras dado um nº de linhas, colunas e uma matriz que é preenchida pelo utlizador.
 
- * @param mat A matriz para preencher
- * @param nlin O nº de linhas da matriz
- * @param ncol O nº de colunas da matriz
+ * @param mat A matriz para preencher.
+ * @param nlin O nº de linhas da matriz.
+ * @param ncol O nº de colunas da matriz.
  * */
 void cria_sopa_letras(char mat [][MAX], int nlin, int ncol)
 {
@@ -22,11 +32,11 @@ void cria_sopa_letras(char mat [][MAX], int nlin, int ncol)
 }
 /**
  * Este procedimento lê um nº de coordenadas e um conjunto de coordenadas do \e stdin. Estas são guardadas em memória
-  * no array x (abcissas) e no array y (ordenadas)
+  * no  \e array x (abcissas) e no  \e array y (ordenadas).
 
- * @param x O \e array x (abcissas)
- * @param y O \e array y (ordenadas)
- * @return O número total de pares ordenados
+ * @param x O \e array x (abcissas).
+ * @param y O \e array y (ordenadas).
+ * @return O número total de pares ordenados.
  * */
 int le_coords(int x [], int y [])
 {
@@ -44,13 +54,13 @@ int le_coords(int x [], int y [])
 }
 /**
  * Este procedimento procura uma \e string, dados dois \e arrays (x - abcissas, y - ordenadas ) com as
- * coordenadas dos caracteres, o nº total de pares ordenados, o nº de linhas e o nº de colunas da matriz:
+ * coordenadas dos caracteres, o nº total de pares ordenados, o nº de linhas e o nº de colunas da matriz.
 
- * @param x O \e array x (abcissas)
- * @param y O \e array y (ordenadas)
- * @param nlin O nº de linhas da matriz
- * @param ncol O nº de colunas da matriz
- * @param ncoords  O número total de pares ordenados
+ * @param x O \e array x (abcissas);
+ * @param y O \e array y (ordenadas);
+ * @param nlin O nº de linhas da matriz;
+ * @param ncol O nº de colunas da matriz;
+ * @param ncoords  O número total de pares ordenados;
  * @param mat A matriz a procurar.
  * @param resultado O \e array para guardar o resultado da procura (a string encontrada).
  * */
@@ -77,7 +87,7 @@ void procura_string(int x [], int y [], int nlin, int ncol, int ncoords, char ma
  * A função principal lê dois inteiros do \e stdin (o no de linhas \e nlin e o
 no de colunas \e ncol da sopa de letras) e seguidamente lê linhas da sopa de letras. Após isso o
 programa lê o nº de coordenadas \e n e seguidamente os \e n pares de coordenadas sabendo que
-primeiro lê o no da linha e depois o no da coluna .
+primeiro lê o no da linha e depois o no da coluna.
  * */
 int main()
 {

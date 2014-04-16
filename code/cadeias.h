@@ -1,3 +1,5 @@
+
+
 int cad_tamanho ( char s []); 
 int cad_procurar_car ( char c , char s []); 
 int cad_ocorrencias ( char c , char s []); 
