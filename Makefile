@@ -1,49 +1,60 @@
 SHELL := /bin/bash
 
-CC = gcc CFLAGS = -ansi -Wall -Wextra -pedantic -O2 #PROGS =repDados\
-#	tamTipos\
-#all: $(PROGS)
-#
-#repDados: mostra_octetos.c repDados.c
-#
-#$(CC) $(CFLAGS) mostra_octetos.c repDados.c -o repDados
-#
-#tamTipos: tamTipos.c
-#
-#$(CC) $(CFLAGS) tamTipos.c -o tamTipos
-#
-#clean:
-#	rm -f $(PROGS) *.o *~core
-#.PHONY: test 
+CC = gcc 
 
-# escrever comando make test para compilar este target ( ou simplesmente make)
+CFLAGS = -ansi -Wall -Wextra -pedantic -O2 #PROGS =repDados\
 
+all: doc compress clean
 
+test: tarefa2 cadeias
 
+doc: 
+	doxygen Doxyfile
 
-compress: identificacao analise.pdf ./code ./doc tar jcf PLg039-et1.tar.bz2
-	identificacao analise.pdf code doc
+compress: identificacao  ./code ./doc 
+	#tar jcf PLg039-et1.tar.bz2 identificacao analise.pdf code doc
+	tar jcf PLg039-et1.tar.bz2 identificacao code doc
 
-
-relatorio.pdf:  report/rel.tex pdflatex report/rel.tex pdflatex report/rel.tex
+analise.pdf:  report/rel.tex 
 	pdflatex report/rel.tex 
-	mv rel.pdf relatorio.pdf 
+	pdflatex report/rel.tex
+	pdflatex report/rel.tex 
+	mv rel.pdf analise.pdf 
 	rm -fr rel.* 
-	rm -fr
-	report/chapters/*.aux
+	rm -fr report/chapters/*.aux
 	#rm -r report
+#tarefa1: ./code/tproc.c
 
-tarefa2: tarefa2.c $(CC) $(CFLAGS) -o tarefa2 tarefa2.c
+tarefa2: ./code/tarefa2.c 
+	$(CC) $(CFLAGS) -o tarefa2 ./code/tarefa2.c
 
-cadeias: tproc.o cadeias.o $(CC) $(CFLAGS) -o tproc tproc.o cadeias.o #$(CC)
-	$(CFLAGS) -o tproc tproc.c cadeias.c
+cadeias: ./code/tproc.o ./code/cadeias.o 
+	$(CC) $(CFLAGS) -o tproc ./code/tproc.o ./code/cadeias.o 
+	#$(CC) $(CFLAGS) -o tproc tproc.c cadeias.c
  
-tproc.o: tproc.c cadeias.h $(CC) $(CFLAGS) -c tproc.c
+#tproc.o: ./code/tproc.c ./code/cadeias.h 
+#	$(CC) $(CFLAGS) -c ./code/tproc.c
 
-cadeias.o: cadeias.c cadeias.h $(CC) $(CFLAGS) -c cadeias.c
+
+tarefa1: cadeias.o t1proc.o tarefa1.o
+	$(CC) $(CFLAGS) -o tarefa1 t1proc.o cadeias.o tarefa1.o
+	rm -r ./*.o
+
+tarefa1.o: ./code/t1proc.c ./code/cadeias.h ./code/t1proc.h
+	$(CC) $(CFLAGS) -c ./code/tarefa1.c
+
+cadeias.o: ./code/cadeias.c ./code/cadeias.h 
+	$(CC) $(CFLAGS) -c ./code/cadeias.c
+
+t1proc.o: ./code/t1proc.c ./code/t1proc.h
+	 $(CC) $(CFLAGS) -c ./code/t1proc.c
 
 # escrever make clean para limpar pasta do código fonte 
-clean: rm -r ./*.o rm -f tproc rm -f tarefa2
+clean: 
+	rm -r ./*.o 
+	rm -f tproc 
+	rm -f tarefa2
+	rm -r ./doc/html
 
 
 
@@ -54,10 +65,6 @@ clean: rm -r ./*.o rm -f tproc rm -f tarefa2
 #tpc3: 
 #
 #	$(CC) -Wall -O2 -c soma.c
-#
-#
-#
-#
 #diss3:
 #	objdump -d soma.o
 #
