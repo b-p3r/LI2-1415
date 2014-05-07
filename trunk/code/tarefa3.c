@@ -8,19 +8,19 @@ int existe(char dic[MAXPAL][MAXSTR], int numpal, char pal[MAXSTR])
 {
     int encontrou=0, res, liminf = 0, limsup = numpal-1, meio;
 
-    while (!encontrou) {
+    while (!encontrou && liminf<=limsup) {
         meio = liminf + (limsup-liminf)/2;
 
         res = cad_comparar(dic[meio],pal);
         switch (res) {
         case -1:
-            liminf = meio;
+            liminf = meio+1;
             break;
         case 0:
             encontrou=1;
             break;
         case 1:
-            limsup = meio;
+            limsup = meio-1;
             break;
         }
     }
@@ -33,7 +33,7 @@ int main()
     char palavra[MAXSTR];
     int linha = 0;
     FILE *d;
-    d = fopen("../dicio.txt", "r");
+    d = fopen("dicio.txt", "r");
     if (d!=NULL) {
         while (fgets(dicionario[linha], MAXSTR, d) != NULL) {
             dicionario[linha][strlen(dicionario[linha])-1] = '\0';
