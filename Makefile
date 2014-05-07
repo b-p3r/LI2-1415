@@ -17,14 +17,18 @@ compress: identificacao  ./code ./doc
 	#tar jcf PLg039-et1.tar.bz2 identificacao analise.pdf code doc
 	tar jcf PLg039-et1.tar.bz2 identificacao code doc
 
+tarefa3: cadeias.o
+
+	gcc  -ansi -Wall -Wextra -pedantic -O2  -c code/tarefa3.c
+	gcc  -ansi -Wall -Wextra -pedantic -O2 -o tarefa3 cadeias.o tarefa3.o
+
+
+
+
 #analise.pdf:  report/rel.tex 
-#	pdflatex report/rel.tex 
-#	pdflatex report/rel.tex
-#	pdflatex report/rel.tex 
-#	mv rel.pdf analise.pdf 
-#	rm -fr rel.* 
-#	rm -fr report/chapters/*.aux
-#	#rm -r report
+#	pdflatex report/rel.tex pdflatex report/rel.tex pdflatex
+#	report/rel.tex mv rel.pdf analise.pdf rm -fr rel.* rm -fr
+#	report/chapters/*.aux #rm -r report
 #
 tarefa2: ./code/tarefa2.c 
 	$(CC) $(CFLAGS) -o tarefa2 ./code/tarefa2.c
