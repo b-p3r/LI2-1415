@@ -3,45 +3,13 @@
 
 /*!
   \def MAX 1000
-  
+
 */
-/*! 
+/*!
    Máximo para \e arrays.
 */
 #define MAX 1000
- /*!< */
-
-/*! \mainpage Projeto de Laboratórios de Informática II 2013/2014
- * O projeto de LI2 consiste em criar uma aplicação na linguagem de programação \e c,
- * que resolva um puzzle do tipo \e Sopa \e de \e Letras. O projeto foi dividido em duas
- * etapas, cada uma com uma série de tarefas a realizar. Cada tarefa é um pequeno
- * passo para a construção do puzzle.
- *
- * \section sec_1 Etapa 1
- * Esta etapa consistiu na realização de de duas tarefas. A
- * Tarefa 1 (implementação de funções de manipulação de  \e strings)
- * e a Tarefa 2 (implementação de um programa de leitura de uma
- *  \e string numa matriz).
- *
- * \subsection subsec_1 Tarefa 1 - Funções de manipulação de strings
- * As funções de manipulações de \e strings implementadas
- * são um versão alternativa das funções já existentes
- * na biblioteca padrão do C. O âmbito das funções é
- * entender o processo da sua análise e conceção, i. e.
- * perceber o que estas funções fazem, para as utilizar
- * com maior eficiência, em particular. De um modo geral servem
- * como preparação para as restantes tarefas do projeto.
- *
- * \subsection subsec_2 Tarefa 2
- *
- * O programa desta tarefa consiste em descobrir
- * uma \e string, dado um conjunto de coordenadas, numa matriz
- * que representa uma sopa de letras. O âmbito deste programa
- * é o entendimento das operações com matrizes, e de igual modo,
- * as funções de manipulação de \e strings servem como preparação
- * para as restantes tarefas do projeto.
- *
- */
+/*!< */
 
 
 /** A função principal deste programa coloca no \e stdout um conjunto de opções

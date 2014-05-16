@@ -1,57 +1,34 @@
 #include <stdio.h>
-#include <string.h>
-#include "cadeias.h"
+
+#include "proc_dict.h"
 #define MAXSTR 25
 #define MAXPAL 100000
+#define MODO_LEITURA "r"
 
-int existe(char dic[MAXPAL][MAXSTR], int numpal, char pal[MAXSTR])
-{
-    int encontrou=0, res, liminf = 0, limsup = numpal-1, meio;
-
-    while (!encontrou && liminf<=limsup) {
-        meio = liminf + (limsup-liminf)/2;
-
-        res = cad_comparar(dic[meio],pal);
-        switch (res) {
-        case -1:
-            liminf = meio+1;
-            break;
-        case 0:
-            encontrou=1;
-            break;
-        case 1:
-            limsup = meio-1;
-            break;
-        }
-    }
-    return encontrou;
-}
-
+/**
+  * O intuito deste programa é carregar, em memória, o conteúdo de um
+  * dicionário e efetuar a procura de uma dada palavra, através do \e
+  * stdin. 
+  * O programa pede inicialmente o caminho do ficheiro, e de seguida pede
+  * ao utilizador para inserir uma palavra a procurar
+  **/
 int main()
 {
     char dicionario[MAXPAL][MAXSTR];
-    char palavra[MAXSTR];
-    int linha = 0;
-    FILE *d;
-    d = fopen("dicio.txt", "r");
-    if (d!=NULL) {
-        while (fgets(dicionario[linha], MAXSTR, d) != NULL) {
-            dicionario[linha][strlen(dicionario[linha])-1] = '\0';
-            linha += 1;
-        }
-        fclose(d);
-        printf("Dicionário em memória!\n");
-        printf("Diga palavras:\n");
-        while (fgets(palavra, MAXSTR, stdin) != NULL) {
-            palavra[strlen(palavra)-1] = '\0';
-            if (existe(dicionario, linha, palavra)) {
-                printf("%s existe\n", palavra);
-            } else {
-                printf("%s NÃO existe\n", palavra);
-            }
-        }
-    } else {
-        printf("Sem dicionário, não brinco\n");
-    }
+    char dict [MAXSTR];
+    int err, linha = 0;
+    printf("Introduza o caminho do dicionario a carregar\n");
+    err = scanf("%s", dict);
+    if(err==0)
+        return 1;
+
+    linha = carregar_dic(dict, dicionario);
+    if(linha==0)
+        return 1;
+    procura_pal(dicionario, linha);
+
+
+
+
     return 0;
 }
