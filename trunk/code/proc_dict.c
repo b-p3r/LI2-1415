@@ -6,37 +6,37 @@
 
 /*!
   \def MAXSTR 25
-  
+
 */
-/*! 
+/*!
    Valor máximo para as \e strings deste módulo (máximo de colunas para a matriz sopa de letras).
 */
 #define MAXSTR 25
- /*!< */
+/*!< */
 
 
 /*!
   \def MAXPAL 100000
-  
+
 */
-/*! 
+/*!
    Valor máximo para as linhas da matriz da sopa de letras.
 */
 #define MAXPAL 100000
- /*!< */
+/*!< */
 
 
 
 
 /*!
   \def MODO_LEITURA "r"
-  
+
 */
-/*! 
+/*!
    Constante utilizada para definir o modo de acesso a um determinado ficheiro (neste caso só leitura).
 */
 #define MODO_LEITURA "r"
- /*!< */
+/*!< */
 
 
 /**
@@ -71,7 +71,7 @@ int existe(char dic[MAXPAL][MAXSTR], int numpal, char pal[MAXSTR])
 }
 
 
-/** 
+/**
   * Esta função carrega os dados de um dicionário em memória, e devolve
   * o número total de linhas do documento.
   * @param dict O caminho do ficheiro a carregar em memória.
@@ -100,26 +100,6 @@ int carregar_dic(char dict [MAXSTR], char dicionario[MAXPAL][MAXSTR])
 
 }
 
-/** 
-  * Esta procedimento pede uma palvra ao utilizador, para ser procurada
-  * num dicionário (usa a implementação da função \c existe).
-  * @param dicionario O dicionário carregado em memória.
-  * @param linha O número de linhas do dicionário.
- **/
-
-void procura_pal(char dicionario[MAXPAL][MAXSTR], int linha )
-{
-    char palavra[MAXSTR];
-    printf("Palavra a procurar:\n");
-    scanf("%s", palavra);
-
-    if (existe(dicionario, linha, palavra)) {
-        printf("%s existe\n", palavra);
-    } else {
-        printf("%s NÃO existe\n", palavra);
-    }
-
-}
 
 
 
