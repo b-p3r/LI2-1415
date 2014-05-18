@@ -2,24 +2,26 @@ SHELL := /bin/bash
 
 CC = gcc 
 
-CFLAGS = -ansi -Wall -Wextra -pedantic -O2 #PROGS =repDados\
+CFLAGS = -ansi -Wall -Wextra -pedantic -O2 
 
 all: doc compress clean
 
 
 
-all2: tarefa3 tarefa2 tarefa1
+all2: tarefa4 tarefa3 tarefa2 tarefa1 clean 
 
 clean: 
 	@echo "A limpar diretoria...."
 	rm -rf *.o
 	rm -rf code/*.o
-	#rm -f tarefa1 
-	#rm -f tarefa2
-	#rm -f tarefa3
-	rm -f tarefa4
 	rm -rf ./doc
 
+clean_exec:
+	@echo "A eliminar executáveis...."
+	rm -f tarefa1 
+	rm -f tarefa2
+	rm -f tarefa3
+	rm -f tarefa4
 
 ############################# - Documentação - #########################################
 doc: 
@@ -57,28 +59,53 @@ compress: identificacao  ./code ./doc
 #	rm -f ./*.o
 
 
+tarefa4: ./code/cadeias.o ./code/proc_sopa.o code/proc_dict.o ./code/coord.o ./code/tarefa4.o
+	@echo "A compilar tarefa4...."
+	$(CC) $(CFLAGS) -o tarefa4 code/cadeias.o code/proc_dict.o code/proc_sopa.o code/coord.o code/tarefa4.o
 
+
+
+
+tarefa4.o: ./code/cadeias.h ./code/proc_sopa.h ./code/coord.o ./code/tarefa4.c	
+	$(CC) $(CFLAGS) -c code/tarefa4.c
+
+coord.o: ./code/coord.c ./code/coord.h
+	$(CC) $(CFLAGS) -c ./code/coord.c
 
 ############################### - Tarefa 3 - ###########################################
 
 tarefa3: ./code/cadeias.o ./code/proc_dict.o ./code/tarefa3.o
 	@echo "A compilar tarefa3...."
 	$(CC) $(CFLAGS) -o tarefa3 code/cadeias.o code/proc_dict.o code/tarefa3.o
-	rm -f ./*.o
+
 
 tarefa3.o: ./code/cadeias.h ./code/proc_dict.h ./code/tarefa3.c	
 	$(CC) $(CFLAGS) -c code/tarefa3.c
 
 
-proc_dict.o: ./code/proc_dict.c ./code/proc_dict.h
-	$(CC) $(CFLAGS) -c ./code/proc_dict.c
+proc_sopa.o: ./code/proc_sopa.c ./code/proc_sopa.h
+	$(CC) $(CFLAGS) -c ./code/proc_sopa.c
+
+
+
 
 
 ############################### - Tarefa 2 - ###########################################
-tarefa2: ./code/tarefa2.c 
+
+
+tarefa2: ./code/cadeias.o ./code/proc_sopa.o code/coord.o code/tarefa2.o
 	@echo "A compilar tarefa2...."
-	$(CC) $(CFLAGS) -o tarefa2 ./code/tarefa2.c
-	rm -f ./*.o
+	$(CC) $(CFLAGS) -o tarefa2 code/cadeias.o code/coord.o code/proc_sopa.o code/tarefa2.o
+
+
+tarefa2.o: ./code/cadeias.h ./code/proc_sopa.h ./code/tarefa2.c	
+	$(CC) $(CFLAGS) -c code/tarefa2.c
+
+
+proc_dict.o: ./code/proc_sopa.c ./code/proc_sopa.h
+	$(CC) $(CFLAGS) -c ./code/proc_sopa.c
+
+
 
 ############################### - Tarefa 1 - ###########################################
 
@@ -86,10 +113,10 @@ cadeias: ./code/tproc.o ./code/cadeias.o
 	$(CC) $(CFLAGS) -o tproc ./code/tproc.o ./code/cadeias.o 
  
 
-tarefa1: tarefa1.o cadeias.o t1proc.o 
+tarefa1: ./code/tarefa1.o ./code/cadeias.o ./code/t1proc.o 
 	@echo "A compilar tarefa1...."
-	$(CC) $(CFLAGS) -o tarefa1 cadeias.o t1proc.o tarefa1.o
-	rm -f ./*.o
+	$(CC) $(CFLAGS) -o tarefa1 ./code/cadeias.o ./code/t1proc.o ./code/tarefa1.o
+
 	
 tarefa1.o: ./code/cadeias.h ./code/t1proc.h ./code/tarefa1.c
 	$(CC) $(CFLAGS) -c ./code/tarefa1.c
