@@ -8,7 +8,7 @@ all: doc compress clean
 
 
 
-all2: tarefa4 tarefa3 tarefa2 tarefa1 clean 
+all2: tarefa5 tarefa4 tarefa3 tarefa2 tarefa1 clean 
 
 clean: 
 	@echo "A limpar diretoria...."
@@ -43,13 +43,16 @@ compress: identificacao  ./code ./doc
 
 ############################### - Tarefa 5 - ###########################################
 
-#tarefa5: ./code/cadeias.o ./code/proc_dict.o ./code/tarefa3.o
-#	@echo "A compilar tarefa3...."
-#	$(CC) $(CFLAGS) -o tarefa3 code/cadeias.o code/proc_dict.o code/tarefa3.o
-#	rm -f ./*.o
-#
-#
-#
+tarefa5: ./code/cadeias.o ./code/proc_dict.o code/proc_sopa.o code/coord.o ./code/tarefa5.o
+	@echo "A compilar tarefa5...."
+	$(CC) $(CFLAGS) -o tarefa5 code/cadeias.o code/proc_dict.o code/proc_sopa.o code/coord.o code/tarefa5.o
+	rm -f ./*.o
+
+tarefa5.o: ./code/cadeias.h ./code/proc_sopa.h ./code/coord.h ./code/tarefa5.c
+	$(CC) $(CFLAGS) -c code/tarefa5.c
+
+
+
 ################################ - Tarefa 4 - ###########################################
 #
 #
