@@ -31,7 +31,7 @@ NODO* novo_nodo ()
 }
 
 
-void inserir_pal(NODO *t, char pal[])
+void inserir_pal(NODO *t, char pal[], char offset_char)
 {
 
     int  nivel, tam;
@@ -44,7 +44,7 @@ void inserir_pal(NODO *t, char pal[])
 
 
     for(nivel = 0; nivel< tam; nivel++) {
-        i = pal[nivel]-'a';
+        i = pal[nivel]-offset_char;
 
         if(aux->nodo[i]==NULL)
             aux->nodo[i]= novo_nodo();
@@ -55,7 +55,7 @@ void inserir_pal(NODO *t, char pal[])
 
 }
 
-int existe(NODO* t, char pal[])
+int existe(NODO* t, char pal[], char offset_char)
 {
 
 
@@ -65,7 +65,7 @@ int existe(NODO* t, char pal[])
     aux = t;
 
     for(nivel = 0; nivel< tam; nivel++) {
-        i = pal[nivel]-'a';
+        i = pal[nivel]-offset_char;
 
         if(aux->nodo[i]==NULL)
             return 0;
@@ -77,7 +77,7 @@ int existe(NODO* t, char pal[])
 
 
 
-int e_prefixo(NODO* t, char pal[])
+int e_prefixo(NODO* t, char pal[], char offset_char)
 {
 
 
@@ -89,7 +89,7 @@ int e_prefixo(NODO* t, char pal[])
     aux = t;
 
     for(nivel = 0; nivel< tam; nivel++) {
-        i = pal[nivel]-'a';
+        i = pal[nivel]-offset_char;
 
         if(aux->nodo[i]==NULL)
             return 0;
@@ -99,23 +99,42 @@ int e_prefixo(NODO* t, char pal[])
     return (aux!=NULL);
 }
 
-
-void imprimir_t(NODO *t, char pal[])
+int append_char2str(char pal [], char a,  int i)
 {
 
-    int nivel, letra;
+    pal[i]=a;
+    pal[i+1]='\0';
+    i++;
+    return i;
+}
+
+int imprimir_t(NODO *t, char pal[], int i, char offset_char)
+{
+
+    int nivel;
+    if(t==NULL)
+        return i;
+
     NODO * aux = t;
 
-    if(aux->e_pal)
-        printf("%s", pal);
+    if(aux->e_pal) {
+        getchar();
+
+        printf("%s",pal);
+
+    }
 
     for(nivel = 0; nivel < ALFABETO; nivel++ ) {
 
         if(aux->nodo[nivel]!=NULL) {
-            letra = nivel+'a';
-//acrescentar letra a pal
-            imprimir_t(aux->nodo[nivel],pal);
+
+
+            i = append_char2str(pal, nivel+offset_char, i);
+            i = imprimir_t(aux->nodo[nivel],pal, i, offset_char);
+            i--;
+
         }
 
     }
+    return i;
 }

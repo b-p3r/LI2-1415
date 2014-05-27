@@ -23,18 +23,18 @@ primeiro lê o no da linha e depois o no da coluna.
  * */
 int main()
 {
-  
-   
+
+
 
     char dict [MAXSTR] = "../dicio.txt";
 
-char letra = ' ';
 
-    unsigned int i;
+
+    int i;
     FILE *f;
 
     char palavras[MAXPAL] [MAXSTR];
-    char resultado [MAX];
+    char  resultado [MAX];
 
 
 
@@ -42,7 +42,7 @@ char letra = ' ';
     NODO* trie;
 
     linha = existe_pal= 0;
-    
+
 
 
 
@@ -61,27 +61,26 @@ char letra = ' ';
     for(i = 0; i < linha ; i++) {
 
 
-        inserir_pal(trie, palavras[i]);
+        inserir_pal(trie, palavras[i], 'a');
 
     }
 
 
-i = 0;   
+    i = 0;
 
+    scanf("%s",resultado);
 
-
-/*    if(existe(trie, resultado)) printf("%s EXISTE", resultado);
+    if(existe(trie, resultado, 'a')) printf("%s EXISTE", resultado);
     else printf("%s NÂO EXISTE", resultado);
 
+//    scanf("%s",resultado);
+//
+//
+//
+//    if(e_prefixo(trie, resultado, 'a')) printf("%s E_PREF", resultado);
+//    else printf("%s NÂO E_PREF", resultado);
 
-    scanf("%s",resultado);*/
-
-
-
- /*   if(e_prefixo(trie, resultado)) printf("%s E_PREF", resultado);
-    else printf("%s NÂO E_PREF", resultado);*/
-
-    imprimir_t(trie, letra);
+    //imprimir_t(trie, resultado, i, 'a');
 
 
     return 0;
