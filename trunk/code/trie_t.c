@@ -1,20 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "utils.h"
-
-/*!
-   Constante utilizada para definir o modo de acesso a um determinado ficheiro (neste caso só leitura).
-*/
-#define MODO_LEITURA "r"
-/*!< */
 
 #define ALFABETO 26
-
-
-#define OFFSET_CHAR 'A'
-
-#define MAXSTR 25
 
 
 typedef struct t_nodo {
@@ -67,7 +55,7 @@ void inserir_pal(NODO *t, char pal[], char offset_char)
 
 }
 
-int e_pal(NODO* t, char pal[], char offset_char)
+int existe(NODO* t, char pal[], char offset_char)
 {
 
 
@@ -111,6 +99,14 @@ int e_prefixo(NODO* t, char pal[], char offset_char)
     return (aux!=NULL);
 }
 
+int append_char2str(char pal [], char a,  int i)
+{
+
+    pal[i]=a;
+    pal[i+1]='\0';
+    i++;
+    return i;
+}
 
 int imprimir_t(NODO *t, char pal[], int i, char offset_char)
 {
@@ -122,9 +118,9 @@ int imprimir_t(NODO *t, char pal[], int i, char offset_char)
     NODO * aux = t;
 
     if(aux->e_pal) {
-        /*getchar();*/
+        getchar();
 
-        printf("%s\n",pal);
+        printf("%s",pal);
 
     }
 
@@ -142,34 +138,3 @@ int imprimir_t(NODO *t, char pal[], int i, char offset_char)
     }
     return i;
 }
-NODO* carregar_dic_t(char dict [])
-{
-    NODO* store = NULL;
-
-    char palavra[MAXSTR];
-
-
-    int linha = 0;
-    FILE *d;
-    d = fopen(dict, MODO_LEITURA);
-    if (d!=NULL) {
-        store = novo_nodo();
-        while (fgets(palavra, MAXSTR, f) != NULL) {
-            palavra[strlen(palavra)-1] = '\0';
-            str2upper(palavra);
-
-            inserir_pal(store, palavra, OFFSET_CHAR);
-
-
-        }
-        fclose(d);
-
-    }
-
-
-    return store;
-
-}
-
-
-
