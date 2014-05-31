@@ -29,7 +29,7 @@ int main()
     int mat_flag[MAX] [MAX];
     char  resultado [MAXSTR];
 
-    trie = carregar_dic_t ( DICIONARIO );
+    trie = carregar_dic_t ( DICIONARIO , OFFSET_CHAR_UPPER);
 
     if ( trie == NULL )
         return 1;

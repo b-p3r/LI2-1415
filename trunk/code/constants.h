@@ -55,9 +55,9 @@
 #define ALFABETO 26
 
 
-#define OFFSET_CHAR 'A'
+#define OFFSET_CHAR_UPPER 'A'
 
-
+#define OFFSET_CHAR_LOWER 'a';
 
 
 #define MAX_TEMP 8

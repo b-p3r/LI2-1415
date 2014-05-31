@@ -40,7 +40,7 @@ int main()
 
 
 
-        trie = carregar_dic_t ( dict );
+        trie = carregar_dic_t ( dict , OFFSET_CHAR_LOWER);
     }
 
     err = 0;
@@ -99,7 +99,7 @@ int main()
             return 1;
 
 
-        existe_pal = e_pal ( trie, tmp, OFFSET_CHAR );
+        existe_pal = e_pal ( trie, tmp, OFFSET_CHAR_LOWER );
 
         if ( existe_pal ) {
             printf ( "%s é uma palavra! Parabéns!\n", resultado );
@@ -115,11 +115,7 @@ int main()
         } else printf ( "%s não é uma palavra!\n", resultado );
 
 
-        while ( tmp[i] ) {
-            tmp [i] = '\0';
-
-            i++;
-        }
+        limpar_array(tmp);
 
 
     }
