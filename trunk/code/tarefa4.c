@@ -2,13 +2,8 @@
 #include <ctype.h>
 #include "proc_sopa.h"
 #include "coord.h"
-#include "proc_dict.h"
-
-#define MAXSTR 25
-#define MAXPAL 100000
-
-#define MAX 1000
-
+#include "trie_t.h"
+#include "constants.h"
 
 
 
@@ -21,10 +16,11 @@ primeiro lê o no da linha e depois o no da coluna.
 int main()
 {
     char mat[MAX][MAX];
-    char dicionario[MAXPAL][MAXSTR];
+    int x1[MAX], y1[MAX];
+    NODO *trie;
     char dict [MAXSTR];
 
-    int x1[MAX], y1[MAX];
+
 
     char resultado [MAX];
     char tmp[MAX];
@@ -32,81 +28,94 @@ int main()
 
     int i, xi, yi , linha, ncoords, err, escolha , nlin, ncol, existe_pal;
 
-    ncoords = linha = existe_pal= 0;
+    ncoords = linha = existe_pal = 0;
     err = 0;
-    while(linha == 0) {
-        printf("Introduza o caminho do dicionario a carregar\n");
-        err = scanf("%s", dict);
-        if(err==0)
-            return 1;
-        err = 0;
 
-        linha = carregar_dic(dict, dicionario);
+    while ( linha == 0 ) {
+        printf ( "Introduza o caminho do dicionario a carregar\n" );
+        err = scanf ( "%s", dict );
+
+        if ( err == 0 )
+            return 1;
+
+
+
+        trie = carregar_dic_t ( dict );
     }
-    printf("Introduza o dimensões da matriz\n");
-    err = scanf("%d%d\n",&nlin,&ncol);
-    if(err  == 0)
+
+    err = 0;
+    printf ( "Introduza o dimensões da matriz\n" );
+    err = scanf ( "%d%d\n", &nlin, &ncol );
+
+    if ( err  == 0 )
         return 1;
+
     err = 0;
 
-    cria_sopa_letras(mat, nlin, ncol);
-    init_cabecalho(ncol);
-    print_sopa(mat, nlin, ncol);
-    while(err == 0) {
-        printf("Escolha um movimento.\n");
-        printf("1   Serpente.\n");
-        printf("2   Passo de cavalo.\n");
-        printf("0   Sair.\n");
-        err = scanf("%d", &escolha);
-        if(err  == 0)
+    cria_sopa_letras ( mat, nlin, ncol );
+    init_cabecalho ( ncol );
+    print_sopa ( mat, nlin, ncol );
+
+    while ( err == 0 ) {
+        printf ( "Escolha um movimento.\n" );
+        printf ( "1   Serpente.\n" );
+        printf ( "2   Passo de cavalo.\n" );
+        printf ( "0   Sair.\n" );
+        err = scanf ( "%d", &escolha );
+
+        if ( err  == 0 )
             return 1;
-       
-    }
-    err = 0;
-    while(!existe_pal) {
-        switch (escolha) {
 
-        case 1 :
-            ncoords = le_coords_jogo(mat, x1, y1, 1, nlin, ncol);
-            break;
-        case 2:
-            ncoords = le_coords_jogo(mat, x1, y1, 2, nlin, ncol);
-            break;
+    }
+
+    err = 0;
+
+    while ( !existe_pal ) {
+        switch ( escolha ) {
+
+            case 1 :
+                ncoords = le_coords_jogo ( mat, x1, y1, 1, nlin, ncol );
+                break;
+            case 2:
+                ncoords = le_coords_jogo ( mat, x1, y1, 2, nlin, ncol );
+                break;
         }
 
-        if(escolha == 0)
+        if ( escolha == 0 )
             return 0;
 
 
-        for(i = 0; i < ncoords; i++) {
+        for ( i = 0; i < ncoords; i++ ) {
             xi = x1[i];
             yi = y1[i];
-            resultado[i] =mat[xi][yi];
-            tmp [i] =tolower(mat[xi][yi]);
+            resultado[i] = mat[xi][yi];
+            tmp [i] = tolower ( mat[xi][yi] );
         }
+
         resultado[i] = '\0';
         tmp[i] = '\0';
 
-        if(linha==0)
+        if ( linha == 0 )
             return 1;
 
-        existe_pal  =  existe(dicionario, linha, tmp);
 
-        if(existe_pal) {
-            printf("%s é uma palavra! Parabéns!\n", resultado);
-            printf("Quer jogar novamente?(s/n)\n");
+        existe_pal = e_pal ( trie, tmp, OFFSET_CHAR );
+
+        if ( existe_pal ) {
+            printf ( "%s é uma palavra! Parabéns!\n", resultado );
+            printf ( "Quer jogar novamente?(s/n)\n" );
 
             getchar();
             c = getchar();
 
 
-            if(c == 's'|| c == 'S')
+            if ( c == 's' || c == 'S' )
                 existe_pal = 0;
 
-        } else printf("%s não é uma palavra!\n", resultado);
+        } else printf ( "%s não é uma palavra!\n", resultado );
 
 
-        while (tmp[i]) {
+        while ( tmp[i] ) {
             tmp [i] = '\0';
 
             i++;
@@ -114,5 +123,6 @@ int main()
 
 
     }
+
     return 0;
 }

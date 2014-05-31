@@ -39,39 +39,41 @@ int main()
 
 
     unsigned int linha, existe_pal;
-    NODO* trie;
+    NODO *trie;
 
-    linha = existe_pal= 0;
-
-
+    linha = existe_pal = 0;
 
 
 
-    f = fopen(dict, "r");
 
-    while (fgets(palavras[linha], MAXSTR, f) != NULL) {
-        palavras[linha][strlen(palavras[linha])-1] = '\0';
+
+    f = fopen ( dict, "r" );
+
+    while ( fgets ( palavras[linha], MAXSTR, f ) != NULL ) {
+        palavras[linha][strlen ( palavras[linha] ) - 1] = '\0';
         linha++;
 
     }
-    fclose(f);
-    printf("Numero de palavras = %d\n", linha);
+
+    fclose ( f );
+    printf ( "Numero de palavras = %d\n", linha );
 
     trie = novo_nodo();
-    for(i = 0; i < linha ; i++) {
+
+    for ( i = 0; i < linha ; i++ ) {
 
 
-        inserir_pal(trie, palavras[i], 'a');
+        inserir_pal ( trie, palavras[i], 'a' );
 
     }
 
 
     i = 0;
 
-    scanf("%s",resultado);
+    scanf ( "%s", resultado );
 
-    if(existe(trie, resultado, 'a')) printf("%s EXISTE", resultado);
-    else printf("%s NÂO EXISTE", resultado);
+    if ( existe ( trie, resultado, 'a' ) ) printf ( "%s EXISTE", resultado );
+    else printf ( "%s NÂO EXISTE", resultado );
 
 //    scanf("%s",resultado);
 //

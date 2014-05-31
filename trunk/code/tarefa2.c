@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "proc_sopa.h"
 #include "coord.h"
+#include "constants.h"
 
 
-#define MAX 1000
+
 
 
 
@@ -21,15 +22,16 @@ int main()
     int  ncoords;
     char resultado [MAX];
 
-    n = scanf("%d%d\n", &nlin, &ncol);
-    if(n == 0)
+    n = scanf ( "%d%d\n", &nlin, &ncol );
+
+    if ( n == 0 )
         return 1;
 
-    cria_sopa_letras(mat, nlin, ncol);
+    cria_sopa_letras ( mat, nlin, ncol );
 
-    ncoords = le_coords(x, y);
-    procura_string(x, y, ncoords,mat, resultado);
+    ncoords = le_coords ( x, y );
+    procura_string ( x, y, ncoords, mat, resultado );
 
-    printf("%s\n", resultado);
+    printf ( "%s\n", resultado );
     return 0;
 }

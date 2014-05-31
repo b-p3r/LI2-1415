@@ -5,10 +5,12 @@
  * @param  s A  \e string dada.
  * @return O tamanho da  \e string.
  * */
-int cad_tamanho ( char s [])
+int cad_tamanho ( char s [] )
 {
-    int i=0;
-    while(s[i]) i++;
+    int i = 0;
+
+    while ( s[i] ) i++;
+
     return i;
 }
 
@@ -19,16 +21,17 @@ int cad_tamanho ( char s [])
  * @param s A  \e string onde o caractere será procurado.
  * @return O índice onde se encontra o caractere, -1 caso o caractere não se encontre na \e string.
  * */
-int cad_procurar_car ( char c , char s [])
+int cad_procurar_car ( char c , char s [] )
 {
-    int i, existe=0;
-    for(i = 0; s[i]; i++)
-        if (s[i]==c) {
-            existe=1;
+    int i, existe = 0;
+
+    for ( i = 0; s[i]; i++ )
+        if ( s[i] == c ) {
+            existe = 1;
             break;
         }
 
-    if (existe) return i;
+    if ( existe ) return i;
     else return -1;
 }
 
@@ -41,34 +44,40 @@ int cad_procurar_car ( char c , char s [])
  * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
  * @return O número de ocorrências do caractere, 0 caso não houver ocorrências do caractere na  \e string.
  * */
-int cad_ocorrencias ( char c , char s [])
+int cad_ocorrencias ( char c , char s [] )
 {
     int i, cont;
-    i = cont=0;
-    while(s[i]) {
-        if (s[i]==c) cont++;
+    i = cont = 0;
+
+    while ( s[i] ) {
+        if ( s[i] == c ) cont++;
+
         i++;
     }
+
     return cont;
 }
 
 /**
  * Esta função procura o primeiro índice em que uma  \e string  \e s1 se encontra dentro de outra  \e string  \e s2.
  * Por exemplo, procura "tal" em "mentalmente" e devolve 3.
- 
+
  * @param s1 A \e string a verificar na segunda \e string.
  * @param s2 A  \e string de destino, onde se irá verificar se \e s1 se encontra dentro.
  * @return O número do primeiro índice de  \e s2 onde se encontre um caractere de  \e s1, -1 caso não houver ocorrências de caracteres da \e string.
  * */
-int cad_procurar_str ( char s1 [] , char s2 [])
+int cad_procurar_str ( char s1 [] , char s2 [] )
 {
     int i, j;
-   for (i =0; s2[i]; i++) {
-       for(j = 0; s2[j]&&(s2 [j+i] == s1 [j]) ; j++);
-       if(s1 [j]=='\0')
-           return i;
-   }
-   return -1;
+
+    for ( i = 0; s2[i]; i++ ) {
+        for ( j = 0; s2[j] && ( s2 [j + i] == s1 [j] ) ; j++ );
+
+        if ( s1 [j] == '\0' )
+            return i;
+    }
+
+    return -1;
 
 }
 /**
@@ -78,16 +87,17 @@ int cad_procurar_str ( char s1 [] , char s2 [])
  * @param s2 A  \e string a ser verificada.
  * @return 1 ,se  \e s1 é prefixo de  \e s2, 0 caso contrário.
  * */
-int cad_e_prefixo ( char s1 [] , char s2 [])
+int cad_e_prefixo ( char s1 [] , char s2 [] )
 {
 
     int i , e_pref;
 
-    for(i=0, e_pref = 1; s1[i]&&e_pref; i++) {
-        if(s1[i]!= s2[i]) e_pref = 0;
+    for ( i = 0, e_pref = 1; s1[i] && e_pref; i++ ) {
+        if ( s1[i] != s2[i] ) e_pref = 0;
 
 
     }
+
     return e_pref;
 
 }
@@ -99,20 +109,20 @@ int cad_e_prefixo ( char s1 [] , char s2 [])
  * @param s2 A  \e string a ser verificada.
  * @return 1, se  \e s1 é sufixo de  \e s2, 0 caso contrário.
  * */
-int cad_e_sufixo ( char s1 [] , char s2 [])
+int cad_e_sufixo ( char s1 [] , char s2 [] )
 {
 
     int i, j, e_suf = 1;
 
 
-    i = cad_tamanho (s1) - 1;
-    j = cad_tamanho (s2) - 1;
+    i = cad_tamanho ( s1 ) - 1;
+    j = cad_tamanho ( s2 ) - 1;
 
 
 
-    while(i>=0&&j>=0&&e_suf) {
+    while ( i >= 0 && j >= 0 && e_suf ) {
 
-        if (s1[i]!=s2[j])
+        if ( s1[i] != s2[j] )
             e_suf = 0;
 
         i--;
@@ -120,7 +130,7 @@ int cad_e_sufixo ( char s1 [] , char s2 [])
 
     }
 
-    return e_suf&&i==-1;
+    return e_suf && i == -1;
 }
 
 
@@ -131,18 +141,20 @@ int cad_e_sufixo ( char s1 [] , char s2 [])
  * @param s2 A 2ª  \e string a comparar.
  * @return 1, se  \e s1 é igual a  \e s2, 0 caso contrário.
  * */
-int cad_iguais ( char s1 [] , char s2 [])
+int cad_iguais ( char s1 [] , char s2 [] )
 {
 
     int i, igual = 1;
-    int size1 = cad_tamanho (s1);
-    int size2 = cad_tamanho (s2);
-    if(size1==size2) {
-        for(i = 0; s1[i]&&s2[i]&&igual; i++)
-            if(s1[i]!=s2[i])
+    int size1 = cad_tamanho ( s1 );
+    int size2 = cad_tamanho ( s2 );
+
+    if ( size1 == size2 ) {
+        for ( i = 0; s1[i] && s2[i] && igual; i++ )
+            if ( s1[i] != s2[i] )
                 igual = 0;
     } else
         igual = 0;
+
     return igual;
 }
 /**
@@ -153,26 +165,26 @@ int cad_iguais ( char s1 [] , char s2 [])
  * @param s2 A 2ª  \e string a comparar.
  * @return 1, se  \e s1 é menor que  \e s2, 0 caso contrário.
  * */
-int cad_primeiro ( char s1 [] , char s2 [])
+int cad_primeiro ( char s1 [] , char s2 [] )
 {
 
     int size1, size2, i = 0;
 
-    size1 = cad_tamanho (s1);
-    size2 = cad_tamanho (s2);
+    size1 = cad_tamanho ( s1 );
+    size2 = cad_tamanho ( s2 );
 
-    while(s1[i]&&s2[i]) {
+    while ( s1[i] && s2[i] ) {
 
-        if(s1 [i] == s2 [i]) {
+        if ( s1 [i] == s2 [i] ) {
             i++;
             continue;
-        } else if(s1 [i] < s2 [i])
+        } else if ( s1 [i] < s2 [i] )
             return 1;
         else
             return 0;
     }
 
-    if (size1 < size2)
+    if ( size1 < size2 )
         return 1;
     else
         return 0;
@@ -189,26 +201,30 @@ int cad_primeiro ( char s1 [] , char s2 [])
  * @param s2 A 2ª  \e string a comparar.
  * @return -1, se  \e s1 é menor que  \e s2, 0 se  \e s1 é igual a  \e s2, ou 1 se se  \e s1 é maior que  \e s2.
  * */
-int cad_comparar ( char s1 [] , char s2 [])
+int cad_comparar ( char s1 [] , char s2 [] )
 {
 
     int i = 0;
-    int size1 = cad_tamanho(s1);
-    int size2 = cad_tamanho(s2);
-    while(s1[i]&&s2[i]) {
+    int size1 = cad_tamanho ( s1 );
+    int size2 = cad_tamanho ( s2 );
 
-        if(s1 [i] == s2 [i]) {
+    while ( s1[i] && s2[i] ) {
+
+        if ( s1 [i] == s2 [i] ) {
             i++;
             continue;
         }
-        if(s1 [i] < s2 [i])
+
+        if ( s1 [i] < s2 [i] )
             return -1;
-        if(s1 [i] > s2 [i])
+
+        if ( s1 [i] > s2 [i] )
             return 1;
     }
-    if(size1 > size2)
+
+    if ( size1 > size2 )
         return 1;
-    else if (size1 < size2)
+    else if ( size1 < size2 )
         return -1;
     else
         return 0;
@@ -224,20 +240,20 @@ int cad_comparar ( char s1 [] , char s2 [])
  * @param s2 A 2ª  \e string de destino para procura.
  * @return -1, se  \e s2 não contém nenhum caractere em  \e s1, ou o índíce da 1ª ocorrência de  \e s1 em  \e s2.
  * */
-int cad_um_dos ( char s1 [] , char s2 [])
+int cad_um_dos ( char s1 [] , char s2 [] )
 {
     int i , j, index, enc = 0;
 
-    for(i = 0; !enc&&s1[i]; i++) {
-        for(j =0; !enc&&s2[j]; j++)
-            if(s1[i]==s2[j]) {
+    for ( i = 0; !enc && s1[i]; i++ ) {
+        for ( j = 0; !enc && s2[j]; j++ )
+            if ( s1[i] == s2[j] ) {
                 enc = 1;
                 index = i;
 
             }
     }
 
-    if(enc)
+    if ( enc )
         return index;
     else
         return -1;
@@ -250,19 +266,19 @@ int cad_um_dos ( char s1 [] , char s2 [])
  * @param s2 2ª  \e string de destino para procura.
  * @return -1, se  \e s2 contém todos os carcteres de  \e s1, ou o índíce da 1ª ocorrência de  \e s1 em que não contém um caractere de  \e s2.
  * */
-int cad_nenhum_dos ( char s1 [] , char s2 [])
+int cad_nenhum_dos ( char s1 [] , char s2 [] )
 {
 
 
     int i , enc = 0;
 
-    for(i=0; s1[i]==s2[i]&&s1[i]&&s2[i]; i++);
+    for ( i = 0; s1[i] == s2[i] && s1[i] && s2[i]; i++ );
 
-    if(s1[i]!=s2[i])
+    if ( s1[i] != s2[i] )
         enc = 1;
 
 
-    if(enc)
+    if ( enc )
         return i;
     else
         return -1;
@@ -274,14 +290,15 @@ int cad_nenhum_dos ( char s1 [] , char s2 [])
  * @param s1 A  \e string de origem (a ser copiada).
  * @param s2 A  \e string de destino.
  * */
-void cad_copiar ( char s1 [] , char s2 [])
+void cad_copiar ( char s1 [] , char s2 [] )
 {
 
     int i;
 
-    for ( i = 0; s1[i]; i++)
-        s2[i]=s1[i];
-    s2[i]='\0';
+    for ( i = 0; s1[i]; i++ )
+        s2[i] = s1[i];
+
+    s2[i] = '\0';
 
 }
 /**
@@ -291,17 +308,18 @@ void cad_copiar ( char s1 [] , char s2 [])
  * @param s1 A  \e string que recebe uma outra  \e string a colar.
  * @param s2 A  \e string a colar.
  * */
-void cad_colar ( char s1 [] , char s2 [])
+void cad_colar ( char s1 [] , char s2 [] )
 {
 
 
-    int size1 = cad_tamanho (s1);
-    int n = cad_tamanho (s2) + size1;
+    int size1 = cad_tamanho ( s1 );
+    int n = cad_tamanho ( s2 ) + size1;
     int i, j;
 
-    for(i = size1, j = 0; i < n  ; i++, j++)
+    for ( i = size1, j = 0; i < n  ; i++, j++ )
         s1[i] = s2 [j];
-    s2[i]='\0';
+
+    s2[i] = '\0';
 }
 /**
  * Esta função move \e n \e bytes da área m2 para a área m1.
@@ -315,7 +333,7 @@ void cad_mover ( char m1 [] , char m2 [] , int n )
 {
     int i;
 
-    for (i = 0; i < n ; i++)
+    for ( i = 0; i < n ; i++ )
         m1 [i] = m2 [i];
 
 

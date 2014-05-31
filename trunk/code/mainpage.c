@@ -30,14 +30,14 @@
  *
  *
  *\section sec_2 Etapa 2
- * Esta etapa consiste na realização de quatro tarefas de forma a complementar a nossa formação. 
+ * Esta etapa consiste na realização de quatro tarefas de forma a complementar a nossa formação.
  * A tarefa 3 permitir-nos-á ser capazes de verificar se uma dada string está contida num
- * dicionário, a a tarefa 4 permitir-nos-á ser capazes de escrever um programa que 
- * leia uma grelha de letras de um ficheiro e que permita a um utilizador jogar à sopa de letras, 
- * a tarefa 5 permitir-nos-á ser capazes de encontrar automáticamente todas as palavras 
- * que existem numa sopa de letras, e por último, a tarefa 6 permitir-nos-á ser capazes de 
- * gerar uma sopa de letras, contendo um dado conjunto de palavras. 
- * Todas estas tarefas poêm a prova os nosso conhecimentos adquiridos na resolução de 
+ * dicionário, a a tarefa 4 permitir-nos-á ser capazes de escrever um programa que
+ * leia uma grelha de letras de um ficheiro e que permita a um utilizador jogar à sopa de letras,
+ * a tarefa 5 permitir-nos-á ser capazes de encontrar automáticamente todas as palavras
+ * que existem numa sopa de letras, e por último, a tarefa 6 permitir-nos-á ser capazes de
+ * gerar uma sopa de letras, contendo um dado conjunto de palavras.
+ * Todas estas tarefas poêm a prova os nosso conhecimentos adquiridos na resolução de
  * problemas mais complexos, que os problemas da etapa
  * anterior.
  *

@@ -22,6 +22,7 @@ clean_exec:
 	rm -f tarefa2
 	rm -f tarefa3
 	rm -f tarefa4
+	rm -f tarefa5
 
 ############################# - Documentação - #########################################
 doc: 
@@ -43,15 +44,22 @@ compress: identificacao  ./code ./doc
 
 ############################### - Tarefa 5 - ###########################################
 
-tarefa5: ./code/cadeias.o ./code/proc_dict.o code/proc_sopa.o code/coord.o ./code/tarefa5.o
+tarefa5: ./code/cadeias.o ./code/proc_dict.o code/proc_sopa.o code/coord.o ./code/search_m.o ./code/trie_t.o ./code/utils.o ./code/tarefa5.o
 	@echo "A compilar tarefa5...."
-	$(CC) $(CFLAGS) -o tarefa5 code/cadeias.o code/proc_dict.o code/proc_sopa.o code/coord.o code/tarefa5.o
+	$(CC) $(CFLAGS) -o tarefa5 code/cadeias.o code/proc_dict.o ./code/search_m.o  ./code/trie_t.o ./code/utils.o code/proc_sopa.o code/coord.o code/tarefa5.o
 	rm -f ./*.o
 
 tarefa5.o: ./code/cadeias.h ./code/proc_sopa.h ./code/coord.h ./code/tarefa5.c
 	$(CC) $(CFLAGS) -c code/tarefa5.c
 
+utils.o: ./code/utils.c ./code/utils.h
+	$(CC) $(CFLAGS) -c ./code/utils.c
 
+trie_t.o: ./code/trie_t.c ./code/trie_t.h
+	$(CC) $(CFLAGS) -c ./code/trie_t.c
+
+search_m.o: ./code/search_m.c ./code/search_m.h
+	$(CC) $(CFLAGS) -c ./code/search_m.c
 
 ################################ - Tarefa 4 - ###########################################
 #
@@ -62,9 +70,9 @@ tarefa5.o: ./code/cadeias.h ./code/proc_sopa.h ./code/coord.h ./code/tarefa5.c
 #	rm -f ./*.o
 
 
-tarefa4: ./code/cadeias.o ./code/proc_sopa.o code/proc_dict.o ./code/coord.o ./code/tarefa4.o
+tarefa4: ./code/cadeias.o ./code/proc_sopa.o code/trie_t.o ./code/coord.o ./code/utils.o ./code/tarefa4.o
 	@echo "A compilar tarefa4...."
-	$(CC) $(CFLAGS) -o tarefa4 code/cadeias.o code/proc_dict.o code/proc_sopa.o code/coord.o code/tarefa4.o
+	$(CC) $(CFLAGS) -o tarefa4 code/cadeias.o code/trie_t.o code/proc_sopa.o ./code/utils.o code/coord.o code/tarefa4.o
 
 
 
@@ -77,9 +85,9 @@ coord.o: ./code/coord.c ./code/coord.h
 
 ############################### - Tarefa 3 - ###########################################
 
-tarefa3: ./code/cadeias.o ./code/proc_dict.o ./code/tarefa3.o
+tarefa3: ./code/cadeias.o ./code/trie_t.o ./code/utils.o ./code/tarefa3.o
 	@echo "A compilar tarefa3...."
-	$(CC) $(CFLAGS) -o tarefa3 code/cadeias.o code/proc_dict.o code/tarefa3.o
+	$(CC) $(CFLAGS) -o tarefa3 code/cadeias.o ./code/utils.o code/trie_t.o code/tarefa3.o
 
 
 tarefa3.o: ./code/cadeias.h ./code/proc_dict.h ./code/tarefa3.c	
