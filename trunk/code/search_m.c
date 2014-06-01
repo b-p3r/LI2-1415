@@ -3,7 +3,13 @@
 #include <stdio.h>
 
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 void depth_first_serpente ( int l, int c, int nlin, int ncol, char pal[], int index, char mat[] [MAX], int mat_flag[][MAX], NODO *trie, NODO *store )
 
 {
@@ -23,8 +29,8 @@ void depth_first_serpente ( int l, int c, int nlin, int ncol, char pal[], int in
     /*        mat_flag[l][c] = 0;*/
     /*  return;*/
     /* }*/
-    if ( e_pal ( trie, pal, OFFSET_CHAR ) ) {
-        inserir_pal ( store, pal, OFFSET_CHAR );
+    if ( e_pal ( trie, pal, OFFSET_CHAR_UPPER ) ) {
+        inserir_pal ( store, pal, OFFSET_CHAR_UPPER );
 
     }
 
@@ -49,7 +55,13 @@ void depth_first_serpente ( int l, int c, int nlin, int ncol, char pal[], int in
     mat_flag[l][c] = 0;
 
 }
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 void depth_first_cavalo ( int l, int c, int nlin, int ncol, char pal[], int i, char mat[] [MAX], int mat_flag[][MAX], NODO *trie, NODO *store )
 
 {
@@ -68,8 +80,8 @@ void depth_first_cavalo ( int l, int c, int nlin, int ncol, char pal[], int i, c
     /*        mat_flag[l][c] = 0;*/
     /*  return;*/
     /* }*/
-    if ( e_pal ( trie, pal, OFFSET_CHAR ) ) {
-        inserir_pal ( store, pal, OFFSET_CHAR );
+    if ( e_pal ( trie, pal, OFFSET_CHAR_UPPER ) ) {
+        inserir_pal ( store, pal, OFFSET_CHAR_UPPER );
         /*printf("%s\n",pal);*/
     }
 

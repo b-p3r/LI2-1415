@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include "constants.h"
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 
 int existe_c ( int x [], int y [], int l, int c , int tam )
 {
@@ -18,7 +24,13 @@ int existe_c ( int x [], int y [], int l, int c , int tam )
     return existe;
 
 }
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 void limpar_array_coords ( int x [], int y [], int n )
 {
     int i;
@@ -32,8 +44,13 @@ void limpar_array_coords ( int x [], int y [], int n )
 
 }
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
-
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int calcularCoordX_Serpen ( int l, int pos )
 {
     int res = 0;
@@ -77,7 +94,13 @@ int calcularCoordX_Serpen ( int l, int pos )
 
 }
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int calcularCoordY_Serpen ( int c, int pos )
 {
     int res = 0;
@@ -121,7 +144,13 @@ int calcularCoordY_Serpen ( int c, int pos )
     return res;
 }
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int calcularCoordX_Passo_Cav ( int l, int pos )
 {
     int res = 0;
@@ -166,7 +195,13 @@ int calcularCoordX_Passo_Cav ( int l, int pos )
 }
 
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int calcularCoordY_Passo_Cav ( int c, int pos )
 {
     int res = 0;
@@ -210,17 +245,13 @@ int calcularCoordY_Passo_Cav ( int c, int pos )
     return res;
 }
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
 
-int e_Jogada_Valid ( int l, int c, int nlin, int ncol )
-{
-
-    return ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol );
-
-}
-
-
-
-
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int jogadas_PossiveisPC ( int a[], int b[], int l, int c, int nlin, int ncol )
 {
     int i, j, linha , coluna;
@@ -230,7 +261,7 @@ int jogadas_PossiveisPC ( int a[], int b[], int l, int c, int nlin, int ncol )
         linha = calcularCoordX_Passo_Cav ( l, j );
         coluna = calcularCoordY_Passo_Cav ( c, j );
 
-        if ( e_Jogada_Valid ( linha, coluna, nlin, ncol ) ) {
+        if ( ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) {
             a[i] = linha;
             b[i] = coluna;
             i++;
@@ -241,6 +272,13 @@ int jogadas_PossiveisPC ( int a[], int b[], int l, int c, int nlin, int ncol )
     return i;
 }
 
+/**
+ * Esta função conta o número de ocorrências de um caractere numa  \e string
+ * Por exemplo, conta as ocorrências de 'a' em "anagrama" e devolve o nº de ocorrências.
+
+ * @param c O caractere a procurar.
+ * @param s A  \e string onde onde as ocorrências do caractere serão contadas.
+ * */
 int jogadas_Possiveis_Serpent ( int a[], int b[], int l, int c, int nlin, int ncol )
 {
     int i, j, linha , coluna;
@@ -249,7 +287,7 @@ int jogadas_Possiveis_Serpent ( int a[], int b[], int l, int c, int nlin, int nc
         linha = calcularCoordX_Serpen ( l, j );
         coluna = calcularCoordY_Serpen ( c, j );
 
-        if ( e_Jogada_Valid ( linha, coluna, nlin, ncol ) ) {
+        if (  ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) {
             a[i] = linha;
             b[i] = coluna;
             i++;

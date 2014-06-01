@@ -1,14 +1,15 @@
 #include <ctype.h>
 
-void limpar_array(str[]){
-	int i;
-for ( i = 0; str[i]; i++) {
-            str [i] = '\0';
+void limpar_array ( char str[] )
+{
+    int i;
+    for ( i = 0; str[i]; i++ ) {
+        str [i] = '\0';
 
-            i++;
-        }
-        
-	}
+        i++;
+    }
+
+}
 
 int append_char2str ( char pal [], char a,  int i )
 {

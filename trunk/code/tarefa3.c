@@ -10,7 +10,7 @@
   * dicionário e efetuar a procura de uma dada palavra, através do \e
   * stdin.
   * O programa pede inicialmente o caminho do ficheiro, e de seguida pede
-  * ao utilizador para inserir uma palavra a procurar
+  * ao utilizador para inserir uma palavra a procurar num dicionário, previemente carregado em memória.
   **/
 int main()
 {

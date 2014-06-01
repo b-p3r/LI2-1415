@@ -6,12 +6,16 @@
 
 
 /*!
-  \typedef t_nodo
-  Estrutura que representa um nodo de uma \e retrieval \e tree (árvore de prefixos).
 
+  \typedef NODO
+    @brief Tipo NODO que é uma \e struct \c t_nodo
+	*
 */
+/** @struct t_nodo;
+ *  @brief Estrutura que representa um nodo de uma \e retrieval \e tree (árvore de prefixos).
+ */
 typedef struct t_nodo {
-	/*@{*/
+    /*@{*/
     struct t_nodo *nodo [ALFABETO];/**< Um \e array de apontadores para os filhos da árvore */
     /*@}*/
     /*@{*/
@@ -22,10 +26,9 @@ typedef struct t_nodo {
 
 
 /*!
-     A função novo_nodo(), aloca memória para um novo nodo da árvore, 
+     A função \c novo_nodo(), aloca memória para um novo nodo da árvore,
      colocando todos os apontadores do nodo a NULL.
-	 .
-     @return  res   Um endereço de um novo nodo da árvore.
+     @return Um endereço de um novo nodo da árvore.
      */
 NODO *novo_nodo ()
 {
@@ -48,46 +51,46 @@ NODO *novo_nodo ()
 }
 
 /*!
-     A função inserir_pal, aloca memória para um novo nodo da árvore, 
+     A função \c inserir_pal, aloca memória para um novo nodo da árvore,
      colocando todos os apontadores do nodo a NULL.
 	 @param t O endereço da árvore
 	 @param pal A \e string a inserir.
-	 @param offset_char O caractere para cálculo do índice do \e array 
+	 @param offset_char O caractere para cálculo do índice do \e array
 	 onde estará um apontador.
-     @return  res   Um endereço de um novo nodo da árvore.
+     @return Um endereço de um novo nodo da árvore.
      */
-void  ( NODO *t, char pal[], char offset_char )
+void inserir_pal ( NODO *t, char pal[], char offset_char )
 {
 
     int  nivel, tam;
     int i = 0;
 
-    NODO *aux = NULL;
+    NODO *ap = NULL;
 
     tam = strlen ( pal );
-    aux = t;
+    ap = t;
 
 
     for ( nivel = 0; nivel < tam; nivel++ ) {
         i = pal[nivel] - offset_char;
 
-        if ( aux->nodo[i] == NULL )
-            aux->nodo[i] = novo_nodo();
+        if ( ap->nodo[i] == NULL )
+            ap->nodo[i] = novo_nodo();
 
-        aux = aux->nodo[i];
+        ap = ap->nodo[i];
     }
 
-    aux->e_pal = 1;
+    ap->e_pal = 1;
 
 }
 /*!
-     A função e_vizinho, verifica se determinado caractere da árvore tem
+     A função \c e_vizinho, verifica se determinado caractere da árvore tem
      algum nodo na vizinhaça. Recebe um nodo
      colocando todos os apontadores do nodo a NULL.
 	 @param t O endereço do nodo
 	 @param letra O  caractere a procurar.
 	 @param offset_char O caractere para cálculo do índice do \e array.
-     @return  ap   O endereço de um novo nodo num nível abaixo da árvore,
+     @return O endereço de um novo nodo num nível abaixo da árvore,
       ou o mesmo nodo caso contrário.
      */
 NODO *e_vizinho ( NODO *t, char letra, char offset_char )
@@ -96,20 +99,19 @@ NODO *e_vizinho ( NODO *t, char letra, char offset_char )
     int i = letra - offset_char;
 
     if ( ap->nodo[i] != NULL ) {
-        ap = next->nodo[i];
+        ap = ap->nodo[i];
         return ap;
     } else return ap;
 }
 
 /*!
-     A função e_vizinho, verifica se determinado caractere da árvore tem
-     algum nodo na vizinhaça. Recebe um nodo
-     colocando todos os apontadores do nodo a NULL.
+     A função \c e_prefixo, verifica se determinado \e string é um prefixo, i. e,
+     se todos os caracteres da \e string pertencem à árvore.
 	 @param t O endereço do nodo
-	 @param letra O  caractere a procurar.
+	 @param pal A palavra a verificar.
 	 @param offset_char O caractere para cálculo do índice do \e array.
-     @return  ap   O endereço de um novo nodo num nível abaixo da árvore,
-      ou o mesmo nodo caso contrário.
+     @return  ap  O endereço de um novo nodo correspondente do nível que contém a referência para
+	  o último caractere, ou o NULL caso contrário.
      */
 NODO *e_prefixo ( NODO *t, char pal[], char offset_char )
 {
@@ -128,17 +130,17 @@ NODO *e_prefixo ( NODO *t, char pal[], char offset_char )
         if ( ap->nodo[i] == NULL )
             return NULL;
 
-         = aux->nodo[i];
+        ap = ap->nodo[i];
     }
 
-    return ( aux );
+    return ( ap );
 }
 
 /*!
-    A função e_pal, verifica se determinada \e string pertence à arvore.
-    * 
+    A função \c e_pal, verifica se determinada \e string pertence à arvore.
+
 	 @param t O endereço do árvore
-	 @param pal A \e string a inserir.
+	 @param pal A \e string a procurar.
 	 @param offset_char O caractere para cálculo do índice do \e array.
      @return  1 se a palavra existe, 0, caso contrário.
      */
@@ -146,27 +148,26 @@ int e_pal ( NODO *t, char pal[], char offset_char )
 {
 
 
-    NODO *aux = NULL;
-    aux = t;
+    NODO *ap = NULL;
+    ap = t;
 
-    if ( aux == NULL )
+    if ( ap == NULL )
         return 0;
 
-    if ( aux != NULL )
-        aux = e_prefixo ( aux, pal, offset_char );
+    if ( ap != NULL )
+        ap = e_prefixo ( ap, pal, offset_char );
 
-    return ( aux != NULL && aux->e_pal );
+    return ( ap != NULL && ap->e_pal );
 }
 
 /*!
+	 A função \c imprimir_t imprime no \e stdout todas as palavras de uma dada \e trie, por ordem alfabética.
+
      @param t O endereço da árvore
-	 @param pal A \e string que irá guardar os caracteres, calculados em 
-	 cada chamada recursiva da função.
-	 @param index O índice da \e string, que será incrementado e 
-	 decrementado, consoante novos caracteres sejam obtidos, ou não 
+	 @param pal A \e string que irá guardar os caracteres, calculados em cada chamada recursiva da função.
+	 @param index O índice da \e string, que será incrementado e decrementado, consoante novos caracteres sejam obtidos, ou não
 	 sejam necessários.
 	 @param offset_char O caractere para cálculo do índice do \e array.
-	 .
      @return  index   O índice actual da \e string.
      */
 int imprimir_t ( NODO *t, char pal[], int index, char offset_char )
@@ -174,13 +175,13 @@ int imprimir_t ( NODO *t, char pal[], int index, char offset_char )
 
     int nivel;
 
-    NODO *aux = t;
+    NODO *ap = t;
 
     if ( t == NULL )
         return index;
 
 
-    if ( aux->e_pal ) {
+    if ( ap->e_pal ) {
 
         printf ( "%s\n", pal );
 
@@ -188,11 +189,11 @@ int imprimir_t ( NODO *t, char pal[], int index, char offset_char )
 
     for ( nivel = 0; nivel < ALFABETO; nivel++ ) {
 
-        if ( aux->nodo[nivel] != NULL ) {
+        if ( ap->nodo[nivel] != NULL ) {
 
 
-            index = append_char2str ( pal, nivel + offset_char, i );
-            index = imprimir_t ( aux->nodo[nivel], pal, i, offset_char );
+            index = append_char2str ( pal, nivel + offset_char, index );
+            index = imprimir_t ( ap->nodo[nivel], pal, index, offset_char );
             index--;
 
         }
@@ -202,13 +203,12 @@ int imprimir_t ( NODO *t, char pal[], int index, char offset_char )
     return index;
 }
 
-/*!
-     A função novo_nodo(), aloca memória para um novo nodo da árvore, 
-     colocando todos os apontadores do nodo a NULL.
-	 .
-     @return  res   Um endereço de um novo nodo da árvore.
-     */
-NODO *carregar_dic_t ( char dict [] , char offset_char)
+/**
+ * Este procedimento carrega um ficheiro de texto em memória com a estrutura de uma \e trie.
+ * @param dict O caractere a procurar.
+ * @param offset_char O caractere para cálculo do índice do \e array.
+ * */
+NODO *carregar_dic_t ( char dict [] , char offset_char )
 {
     NODO *store = NULL;
 
@@ -224,10 +224,10 @@ NODO *carregar_dic_t ( char dict [] , char offset_char)
 
         while ( fgets ( palavra, MAXSTR, d ) != NULL ) {
             palavra[strlen ( palavra ) - 1] = '\0';
-            if(offset_char == OFFSET_CHAR_LOWER)
-            str2upper ( palavra );
+            if ( offset_char == OFFSET_CHAR_UPPER )
+                str2upper ( palavra );
 
-            inserir_pal ( store, palavra, offset_char);
+            inserir_pal ( store, palavra, offset_char );
 
         }
 

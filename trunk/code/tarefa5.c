@@ -12,10 +12,10 @@
 
 
 /**
- * A função principal lê dois inteiros do \e stdin (o no de linhas \e nlin e o
-no de colunas \e ncol da sopa de letras) e seguidamente lê linhas da sopa de letras. Após isso o
-programa lê o nº de coordenadas \e n e seguidamente os \e n pares de coordenadas sabendo que
-primeiro lê o no da linha e depois o no da coluna.
+ * A função principal deste programa lê um movimento de \e stdin, as
+ * dimensões de uma matriz da sopa de letras, e a sopa de letras. De
+ * seguida calcula todas as jogadas e procura todas as palavras da sopa de
+ * letras segundo um movimento.
  * */
 
 int main()
@@ -29,7 +29,7 @@ int main()
     int mat_flag[MAX] [MAX];
     char  resultado [MAXSTR];
 
-    trie = carregar_dic_t ( DICIONARIO , OFFSET_CHAR_UPPER);
+    trie = carregar_dic_t ( DICIONARIO , OFFSET_CHAR_UPPER );
 
     if ( trie == NULL )
         return 1;
@@ -38,52 +38,62 @@ int main()
 
     if ( store == NULL )
         return 1;
+    /*
 
+        mov = i = 0;
+        err = scanf ( "%s", movimento );
 
-    mov = i = 0;
-    err = scanf ( "%s", movimento );
-
-    if ( err  == 0 )
-        return 1;
-
-    mov = strcmp ( movimento , SERPENTE );
-
-    if ( mov == 0 )
-        printf ( "S %d\n", MOV_SERP );
-
-    mov = -1;
-    mov = strcmp ( movimento , CAVALO );
-
-    if ( mov == 0 )
-        printf ( "C %d\n", MOV_CAV );
-
-
-    err = scanf ( "%d%d\n", &nlin, &ncol );
-
-    if ( err  == 0 )
-        return 1;
+        if ( err  == 0 )
+            return 1;
 
 
 
-    cria_sopa_letras ( mat, nlin, ncol );
+        if ( strcmp ( movimento , SERPENTE ) == 0 )
 
-    i = j = 0;
+            mov = MOV_SERP;
 
-    /*função para inicializar matriz para sopa*/
-    for ( i = 0; i < nlin; i++ ) {
-        for ( j = 0; j < ncol; j++ ) {
-            mat_flag[i][j] = 0;
+        else if ( strcmp ( movimento , CAVALO ) == 0 )
+
+            mov = MOV_SERP;
+        else return 1;
+
+        err = scanf ( "%d%d\n", &nlin, &ncol );
+
+        if ( err  == 0 )
+            return 1;
 
 
+
+        cria_sopa_letras ( mat, nlin, ncol );
+
+        i = j = 0;
+    -
+
+        for ( i = 0; i < nlin; i++ ) {
+            for ( j = 0; j < ncol; j++ ) {
+                mat_flag[i][j] = 0;
+
+
+            }
         }
-    }
+    */
+    /*  if (mov==MOV_SERP){*/
 
-    for ( l = 0, i = 0; l < nlin; l++ )
-        for ( c = 0; c < ncol; c++ )
-            depth_first_serpente ( l, c, nlin, ncol, resultado, index, mat, mat_flag, trie, store );
+    /*  for ( l = 0, i = 0; l < nlin; l++ )
+          for ( c = 0; c < ncol; c++ )
+              depth_first_serpente ( l, c, nlin, ncol, resultado, index, mat, mat_flag, trie, store );
+    */
 
+    /*    }
 
-    imprimir_t ( store, resultado, i, OFFSET_CHAR );
+        if (mov==MOV_CAV) {
+
+        for ( l = 0, i = 0; l < nlin; l++ )
+            for ( c = 0; c < ncol; c++ )
+                depth_first_cavalo ( l, c, nlin, ncol, resultado, index, mat, mat_flag, trie, store );
+    	    }
+    */
+    imprimir_t ( trie, resultado, i, OFFSET_CHAR_UPPER );
 
 
     return 0;

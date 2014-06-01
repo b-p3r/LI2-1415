@@ -44,9 +44,9 @@ compress: identificacao  ./code ./doc
 
 ############################### - Tarefa 5 - ###########################################
 
-tarefa5: ./code/cadeias.o ./code/proc_dict.o code/proc_sopa.o code/coord.o ./code/search_m.o ./code/trie_t.o ./code/utils.o ./code/tarefa5.o
+tarefa5: ./code/cadeias.o code/proc_sopa.o code/coord.o ./code/search_m.o ./code/trie_t.o ./code/utils.o ./code/tarefa5.o
 	@echo "A compilar tarefa5...."
-	$(CC) $(CFLAGS) -o tarefa5 code/cadeias.o code/proc_dict.o ./code/search_m.o  ./code/trie_t.o ./code/utils.o code/proc_sopa.o code/coord.o code/tarefa5.o
+	$(CC) $(CFLAGS) -o tarefa5 code/cadeias.o ./code/search_m.o  ./code/trie_t.o ./code/utils.o code/proc_sopa.o code/coord.o code/tarefa5.o
 	rm -f ./*.o
 
 tarefa5.o: ./code/cadeias.h ./code/proc_sopa.h ./code/coord.h ./code/tarefa5.c
