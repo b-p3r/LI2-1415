@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "proc_dict.h"
 #include "constants.h"
 #include "trie_t.h"
 
@@ -13,39 +12,37 @@
   * ao utilizador para inserir uma palavra a procurar num dicionário, previemente carregado em memória.
   **/
 int main()
-{
-
-    char dict [MAXSTR];
+{   char dict [MAXSTR];
     char palavra[MAXSTR];
-    int err, linha, existe_pal;
-    linha = existe_pal = 0;
+    int err,  existe_pal;
+    NODO *trie;
+    existe_pal = 0;
     printf ( "Introduza o caminho do dicionario a carregar\n" );
     err = scanf ( "%s", dict );
-
+    
     if ( err == 0 )
         return 1;
-
-    linha = carregar_dic ( dict, dicionario );
-
-    if ( linha == 0 )
+        
+    trie = carregar_dic_t ( dict, OFFSET_CHAR_LOWER );
+    
+    if ( trie == NULL )
         return 1;
-
+        
     printf ( "Palavra a procurar:\n" );
     err = scanf ( "%s", palavra );
-
+    
     if ( err == 0 )
         return 1;
-
-    e_pal ( dicionario, linha, palavra );
-
+        
+    existe_pal =  e_pal ( trie, palavra, OFFSET_CHAR_LOWER );
+    
     if ( existe_pal )
         printf ( "%s existe\n", palavra );
+        
     else
         printf ( "%s NÃO existe\n", palavra );
-
-
-
-
-
+        
     return 0;
 }
+
+

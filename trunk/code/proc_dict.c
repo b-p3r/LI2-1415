@@ -13,16 +13,14 @@
 * @return 1 caso encontre a palavra no dicionário carregado em memória, 0 caso contrário.
 **/
 int existe ( char dic[MAXPAL][MAXSTR], int numpal, char pal[MAXSTR] )
-{
-    int encontrou = 0, res, liminf = 0, limsup = numpal - 1, meio;
+{   int encontrou = 0, res, liminf = 0, limsup = numpal - 1, meio;
 
-    while ( !encontrou && liminf <= limsup ) {
-        meio = liminf + ( limsup - liminf ) / 2;
-
+    while ( !encontrou && liminf <= limsup )
+    {   meio = liminf + ( limsup - liminf ) / 2;
         res = cad_comparar ( dic[meio], pal );
 
-        switch ( res ) {
-            case -1:
+        switch ( res )
+        {   case -1:
                 liminf = meio + 1;
                 break;
             case 0:
@@ -47,26 +45,25 @@ int existe ( char dic[MAXPAL][MAXSTR], int numpal, char pal[MAXSTR] )
   * @return linha O número total de linhas do documento.
  **/
 int carregar_dic ( char dict [MAXSTR], char dicionario[MAXPAL][MAXSTR] )
-{
-
-    int linha = 0;
+{   int linha = 0;
     FILE *d;
     d = fopen ( dict, MODO_LEITURA );
 
-    if ( d != NULL ) {
-        while ( fgets ( dicionario[linha], MAXSTR, d ) != NULL ) {
-            dicionario[linha][strlen ( dicionario[linha] ) - 1] = '\0';
+    if ( d != NULL )
+    {   while ( fgets ( dicionario[linha], MAXSTR, d ) != NULL )
+        {   dicionario[linha][strlen ( dicionario[linha] ) - 1] = '\0';
             linha += 1;
         }
 
         fclose ( d );
         printf ( "Dicionário em memória!\n" );
-    } else {
-        printf ( "Não foi possível ler dicionario!\n" );
+    }
+
+    else
+    {   printf ( "Não foi possível ler dicionario!\n" );
     }
 
     return linha;
-
 }
 
 

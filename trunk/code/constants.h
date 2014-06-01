@@ -18,7 +18,7 @@
 /*!
    Máximo para \e arrays, colunas e linhas de matrizes.
 */
-#define MAX 2500
+#define MAX 1000
 /*!< */
 
 /*!

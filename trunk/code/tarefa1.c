@@ -16,12 +16,10 @@
  * para testar de uma forma mais rápida as funções implementadas em "cadeias.c"
 */
 int main()
-{
-    char s1 [MAX];
+{   char s1 [MAX];
     char s2 [MAX];
     int n, x;
     char c;
-
     printf ( "          ** Opções disponíveis **         \n" );
     printf ( "1 cad_tamanho		7 cad_iguais     \n" );
     printf ( "2 cad_procurar_car        8 cad_primeiro   \n" );
@@ -31,18 +29,14 @@ int main()
     printf ( "6 cad_e_sufixo            12 cad_copiar    \n" );
     printf ( "7 cad_iguais              13 cad_colar     \n" );
     printf ( "8 cad_primeiro            14 cad_mover     \n" );
-
-
     printf ( "Introduza uma opção: " );
     n = scanf ( "%d", &x );
 
     if ( n == 1 )
         printf ( "Opção selecionada com sucesso!\n" );
 
-    switch ( x ) {
-
-
-        case 1:
+    switch ( x )
+    {   case 1:
             tamanho ( s1 );
             break;
         case 2:
@@ -56,7 +50,6 @@ int main()
         case 4:
             procurar_str ( s1, s2 );
             break;
-
         case 5:
             e_prefixo ( s1, s2 );
             break;
@@ -87,7 +80,6 @@ int main()
         case 14:
             mover ( s1, s2 );
             break;
-
     }
 
     return 0;
