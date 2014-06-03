@@ -56,8 +56,12 @@ int main()
     if ( err  == 0 )
         return 1;
         
+    cria_sopa_letras ( mat, nlin, ncol );
+    
     if ( mov==MOV_SERP )
-    {   for ( l = 0, i = 0; l < nlin; l++ )
+    {   */
+    
+        for ( l = 0, i = 0; l < nlin; l++ )
             for ( c = 0; c < ncol; c++ )
                 depth_first_serpente ( l, c, nlin, ncol, resultado, index, mat, mat_flag, trie, store );
     }
@@ -68,6 +72,9 @@ int main()
                 depth_first_cavalo ( l, c, nlin, ncol, resultado, index, mat, mat_flag, trie, store );
     }
     
+    i = 0;
+    imprimir_t ( store, resultado, i, OFFSET_CHAR_UPPER );
     return 0;
 }
+
 

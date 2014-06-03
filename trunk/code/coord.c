@@ -9,6 +9,7 @@
  * @param y Um \e array que guarda os valores das segundas componentes dos pares ordenados.
  * @param l O nº  de linha do posição da qual se irá fazer a comparação.
  * @param c O nº  de coluna da posição da qual se irá fazer a comparação.
+ * @param tam O tamanho da \e string.
  * @return 1 se a posição existe. 0 caso contrário
  * */
 

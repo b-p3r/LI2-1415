@@ -29,21 +29,10 @@
  *
  * */
 void depth_first_serpente ( int l, int c, int nlin, int ncol, char pal[], int index, char mat[] [MAX], int mat_flag[][MAX], NODO *trie, NODO *store )
-{   NODO *aux =NULL;
-
-    if ( ( ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) && mat_flag[l][c] == 0 && strlen ( pal ) < 26 )
-    {   aux  =  e_vizinho ( trie, mat[l][c], OFFSET_CHAR_UPPER );
-    
-        if ( aux != NULL )
-        {   pal[index] = mat[l][c];
-            pal[index + 1] = '\0';
-            mat_flag[l][c] = 1;
-        }
-        
-        else
-        {   mat_flag[l][c] = 1;
-            return;
-        }
+{   if ( ( ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) && mat_flag[l][c] == 0 && strlen ( pal ) < 26 )
+    {   pal[index] = mat[l][c];
+        pal[index + 1] = '\0';
+        mat_flag[l][c] = 1;
     }
     
     else
@@ -93,21 +82,10 @@ void depth_first_serpente ( int l, int c, int nlin, int ncol, char pal[], int in
  * */
 void depth_first_cavalo ( int l, int c, int nlin, int ncol, char pal[], int index, char mat[] [MAX], int mat_flag[][MAX], NODO *trie, NODO *store )
 
-{   NODO *aux = NULL;
-
-    if ( ( ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) && mat_flag[l][c] == 0 && strlen ( pal ) < 26 )
-    {   aux  =  e_vizinho ( trie, mat[l][c], OFFSET_CHAR_UPPER );
-    
-        if ( aux != NULL )
-        {   pal[index] = mat[l][c];
-            pal[index + 1] = '\0';
-            mat_flag[l][c] = 1;
-        }
-        
-        else
-        {   mat_flag[l][c] = 1;
-            return;
-        }
+{   if ( ( ( l >= 0 && l < nlin ) && ( c >= 0 && c < ncol ) ) && mat_flag[l][c] == 0 && strlen ( pal ) < 26 )
+    {   pal[index] = mat[l][c];
+        pal[index + 1] = '\0';
+        mat_flag[l][c] = 1;
     }
     
     else
@@ -127,6 +105,8 @@ void depth_first_cavalo ( int l, int c, int nlin, int ncol, char pal[], int inde
     depth_first_cavalo ( l - 2 , c - 1 , nlin, ncol, pal, index, mat, mat_flag, trie, store );
     mat_flag[l][c] = 0;
 }
+
+
 
 
 

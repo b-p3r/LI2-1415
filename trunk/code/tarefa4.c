@@ -20,7 +20,6 @@ int main()
 {   char mat[MAX][MAX];
     int x1[MAX], y1[MAX];
     NODO *trie;
-    char dict [MAXSTR];
     char resultado [MAX];
     char tmp[MAX];
     char c;

@@ -92,7 +92,7 @@ int le_coords ( int x [], int y [] )
  * @param ncol O nº tototal de colunas.
  * @param l A linha a partir da qual serão calculadas as coordenadas
  * correspondentes às linhas.
- * @param A coluna a partir da qual serão calculadas as coordenadas
+ * @param c A coluna a partir da qual serão calculadas as coordenadas
  * correspondentes às colunas.
  *
  * @return O número total de jogadas possíveis.
@@ -233,8 +233,6 @@ int le_coords_jogo ( char mat[][MAX], int x [], int y [], int tipo, int nlin, in
 
 * @param x O \e array x (abcissas);
 * @param y O \e array y (ordenadas);
-* @param nlin O nº de linhas da matriz;
-* @param ncol O nº de colunas da matriz;
 * @param ncoords  O número total de pares ordenados;
 * @param mat A matriz a procurar.
 * @param resultado O \e array para guardar o resultado da procura (a string encontrada).

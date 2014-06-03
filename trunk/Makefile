@@ -4,17 +4,17 @@ CC = gcc
 
 CFLAGS = -ansi -Wall -Wextra -pedantic -O2 
 
-all: doc compress clean
+#all: doc compress clean
 
 
 
-all2: tarefa5 tarefa4 tarefa3 tarefa2 tarefa1 clean 
+all: tarefa5 tarefa4 tarefa3 tarefa2 tarefa1 clean 
 
 clean: 
 	@echo "A limpar diretoria...."
 	rm -rf *.o
 	rm -rf code/*.o
-	rm -rf ./doc
+	#rm -rf ./doc
 
 clean_exec:
 	@echo "A eliminar executáveis...."
