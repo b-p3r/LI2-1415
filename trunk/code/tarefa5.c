@@ -59,7 +59,7 @@ int main()
     cria_sopa_letras ( mat, nlin, ncol );
     
     if ( mov==MOV_SERP )
-    {   */
+    {   
     
         for ( l = 0, i = 0; l < nlin; l++ )
             for ( c = 0; c < ncol; c++ )

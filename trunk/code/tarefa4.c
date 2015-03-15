@@ -37,6 +37,7 @@ int main()
     err = scanf ( "%d%d\n", &nlin, &ncol );
     dim = nlin*ncol;
     
+    /*printf ( "Dim %d x %d \n", nlin, ncol );*/
     if ( err  == 0 )
         return 1;
         
