@@ -1,8 +1,8 @@
-#Projeto de LI2
+# Projeto de LI2
 
-##Etapa 1
+## Etapa 1
 
-###Tarefa 1
+### Tarefa 1
 1 Calcular o tamanho de uma string s
 ```
 int cad_tamanho ( char s []);
@@ -60,4 +60,4 @@ int cad_colar ( char s1 [] , char s2 []);
 int cad_mover ( char m1 [] , char m2 [] , int n );
 ```
 
-###Tarefa 2
+### Tarefa 2
